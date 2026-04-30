@@ -66,6 +66,40 @@ The backend follows a standard Spring Boot layered architecture to ensure separa
 
 To handle high-compute processes such as Computer Vision and AI, the architecture will implement an asynchronous processing pattern. Resource-heavy tasks will be offloaded to independent workers or specialized Python microservices, ensuring the main Spring Boot execution thread remains non-blocking and responsive.
 
+## 4. Design Patterns
+
+Specific design patterns are implemented to ensure the system remains maintainable, extensible, and resilient when interacting with external services and complex game rules.
+
+### 4.1. Adapter
+
+- **Location**: Infrastructure / Integration Layer (com.mtgplatform.infrastructure.adapters).
+- **Purpose**: To standardize interfaces for external services such as Scryfall (card data) and Stripe (payments).
+- **Justification**: This decouples the core business logic from third-party proprietary data models. If the card data provider or payment gateway changes in the future, only a new adapter needs to be implemented without modifying the system's core.
+
+### 4.2. Strategy
+
+- **Location**: Deckbuilder Module (com.mtgplatform.service.deck.validation).
+- **Purpose**: To manage varying legality rules based on game formats (e.g., Commander, Standard, Modern).
+- **Justification**: Instead of using bloated if/else or switch blocks to validate a deck, each format's rule set is encapsulated in an independent strategy class. This allows for the modular addition of new game formats.
+
+### 4.3. Observer
+
+- **Location**: Community and Notification Module (com.mtgplatform.service.community.events).
+- **Purpose**: To notify followers or subscribers whenever a creator publishes new content or a premium deck.
+- **Justification**: Maintains minimal coupling between the content creation service and the notification system (push, email, in-app alerts). The creation service simply emits an event, and subscribers react automatically.
+
+### 4.4. Circuit Breaker
+
+- **Location**: AI and Computer Vision Integration Layer (com.mtgplatform.infrastructure.resilience).
+- **Purpose**: To handle failures or excessive latency in Groq (Llama 3) or the Python (OpenCV) microservice.
+- **Justification**: Utilizing Resilience4j, the system can "trip the circuit" if an AI service fails repeatedly. This prevents Spring Boot execution threads from hanging and allows the system to provide a fallback response, maintaining overall platform stability.
+
+### 4.5. Factory Method
+
+- **Location**: Card Domain (com.mtgplatform.domain.factory).
+- **Purpose**: To centralize the creation of Card objects from diverse sources (API data, image scanning results, or manual user input).
+- **Justification**: Ensures that every card object created undergoes initial business validation and correct type mapping before entering the Deckbuilder logic or being persisted in the database.
+
 ## 4. Data Architecture (Core Entities)
 
 - **User**: Core entity handling authentication, roles (Admin, Moderator, Creator, Registered), and profile data.
