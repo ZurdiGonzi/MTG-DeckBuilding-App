@@ -62,7 +62,7 @@ The backend follows a standard Spring Boot layered architecture to ensure separa
 - **Business Logic Layer (Services)**: Core business rules, AI integration logic (Groq), external API calls (Scryfall), and payment processing (Stripe).
 - **Data Access Layer (Repositories)**: Spring Data JPA interfaces managing database interactions with Supabase.
 
-### 3.2. Desacoplamiento de Servicios Críticos:
+### 3.2. Critical Services Decoupling:
 
 To handle high-compute processes such as Computer Vision and AI, the architecture will implement an asynchronous processing pattern. Resource-heavy tasks will be offloaded to independent workers or specialized Python microservices, ensuring the main Spring Boot execution thread remains non-blocking and responsive.
 
