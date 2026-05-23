@@ -1,0 +1,111 @@
+package com.mtg.deckapp.model.user;
+
+import com.mtg.deckapp.model.*;
+import com.mtg.deckapp.model.card.*;
+import com.mtg.deckapp.model.commerce.*;
+import com.mtg.deckapp.model.community.*;
+import com.mtg.deckapp.model.deck.*;
+import com.mtg.deckapp.model.user.*;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+@Table(name = "users")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false, unique = true)
+    private String username;
+
+    private String password;
+
+    @Column(nullable = false, unique = true)
+    private String email;
+
+    private String description;
+
+    @Enumerated(EnumType.STRING)
+    private UserType userType;
+    
+    @Column(name = "profile_image_url")
+    private String profileImageUrl;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private List<LinkedAccount> linkedAccounts = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "family_id")
+    private Family family;
+
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @ManyToMany(mappedBy = "members")
+    @Builder.Default
+    private List<Community> communities = new ArrayList<>();
+
+
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private List<Deck> decks = new ArrayList<>();
+
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private List<Collection> collectionItems = new ArrayList<>();
+
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @OneToMany(mappedBy = "owner")
+    @Builder.Default
+    private List<Tournament> ownedTournaments = new ArrayList<>();
+
+
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinTable(
+        name = "user_searched_cards",
+        joinColumns = @JoinColumn(name = "user_id"),
+        inverseJoinColumns = @JoinColumn(name = "card_id")
+    )
+    @Builder.Default
+    private List<Card> searchedCards = new ArrayList<>();
+
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinTable(
+        name = "user_trade_cards",
+        joinColumns = @JoinColumn(name = "user_id"),
+        inverseJoinColumns = @JoinColumn(name = "card_id")
+    )
+    @Builder.Default
+    private List<Card> tradeCards = new ArrayList<>();
+
+    // Custom constructor for convenience
+    public User(String username, String password, String email) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+    }
+}
+

@@ -1,0 +1,50 @@
+package com.mtg.deckapp.model;
+
+import com.mtg.deckapp.model.*;
+import com.mtg.deckapp.model.card.*;
+import com.mtg.deckapp.model.commerce.*;
+import com.mtg.deckapp.model.community.*;
+import com.mtg.deckapp.model.deck.*;
+import com.mtg.deckapp.model.user.*;
+
+
+import java.sql.Blob;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "images")
+public class Image {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Lob
+    private Blob imgData;
+
+    public Image() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Blob getData() {
+        return imgData;
+    }
+
+    public void setData(Blob data) {
+        this.imgData = data;
+    }
+}
+

@@ -1,5 +1,11 @@
-package com.mtg.deckapp.model;
+package com.mtg.deckapp.model.card;
 
+import com.mtg.deckapp.model.*;
+import com.mtg.deckapp.model.card.*;
+import com.mtg.deckapp.model.commerce.*;
+import com.mtg.deckapp.model.community.*;
+import com.mtg.deckapp.model.deck.*;
+import com.mtg.deckapp.model.user.*;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,7 +23,7 @@ import java.util.List;
 public class Card {
 
     @Id
-    private String scryfallId; // Scryfall UUID
+    private String scryfallId; 
 
     private String name;
     private String lang;
@@ -39,7 +45,7 @@ public class Card {
     private String power;
     private String toughness;
 
-    // Relaciones para listas simples de Strings
+ 
     @ElementCollection
     @CollectionTable(name = "card_colors", joinColumns = @JoinColumn(name = "card_id"))
     @Column(name = "color")
@@ -64,21 +70,19 @@ public class Card {
     private String rarity;
     private String artist;
 
-    // Imágenes (extraemos las más útiles para la UI en vez de crear otra tabla)
+
     @Column(name = "image_uri_normal")
     private String imageUriNormal;
 
     @Column(name = "image_uri_art_crop")
     private String imageUriArtCrop;
 
-    // Precios (se guardan como String para evitar problemas de coma flotante en monedas)
     @Column(name = "price_usd")
     private String priceUsd;
 
     @Column(name = "price_eur")
     private String priceEur;
 
-    // Legalidades de los formatos más jugados
     @Column(name = "legal_standard")
     private String legalStandard;
 
@@ -87,7 +91,6 @@ public class Card {
 
     @Column(name = "legal_commander")
     private String legalCommander;
-
 }
 
-    // 
+
