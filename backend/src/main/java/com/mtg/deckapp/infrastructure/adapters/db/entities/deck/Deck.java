@@ -47,6 +47,9 @@ public class Deck {
     @Column(name = "required_provider")
     private String requiredProvider;
 
+    @Column(name = "commander_scryfall_id")
+    private String commanderScryfallId;
+
     @Column(name = "name")
     private String name;
 

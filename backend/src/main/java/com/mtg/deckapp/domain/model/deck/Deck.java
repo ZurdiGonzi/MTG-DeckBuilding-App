@@ -31,6 +31,7 @@ public class Deck {
     private User owner;
     private int price;
     private String requiredProvider;
+    private String commanderScryfallId;
     private String name;
     private String description;
     private String imageUrl;

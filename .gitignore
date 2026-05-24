@@ -19,3 +19,18 @@ build/
 *.sln
 *.swp
 .DS_Store
+
+# Secretos y variables de entorno - NUNCA subir a GitHub
+.env
+.env.local
+.env.*.local
+
+# Java & Maven
+*.class
+**/target/
+target/
+*.jar
+*.war
+*.zip
+*.tar.gz
+*.rar
