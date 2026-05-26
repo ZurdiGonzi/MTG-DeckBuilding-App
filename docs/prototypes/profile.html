@@ -1,0 +1,1989 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EDH Builder - Perfil de Usuario</title>
+    <!-- Google Fonts: Inter para UI y Cinzel para toque de fantasía/MTG -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <!-- FontAwesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* Definición de la paleta de colores del usuario en Tono Claro */
+        :root {
+            --rough-charcoal: #2C2C2C;
+            --wildwood-green: #1E5612;
+            --savage-cinder: #B9F22B;
+            --terracotta-earth: #D29C6A;
+            --bark-brown: #8B5E3C;
+            --enlace-activo: #F59D1E;
+            --resaltado-textual: #597E3A;
+
+            /* Colores de soporte */
+            --bg-primary: #F4F1EA;
+            /* Blanco roto / Hueso cálido */
+            --bg-page: #EAE6DF;
+            /* Pergamino suave */
+            --text-primary: #2C2C2C;
+            --text-secondary: #5A5A5A;
+            --text-muted: #888888;
+            --bg-hover: rgba(44, 44, 44, 0.05);
+            --border-light: rgba(139, 94, 60, 0.15);
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+            /* Colores de Maná MTG */
+            --w-mana: #F9FAF4;
+            --u-mana: #0E68AB;
+            --b-mana: #1A1818;
+            --r-mana: #D32F2F;
+            --g-mana: #2E7D32;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-page);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ==================== ESTILOS DEL HEADER (header.html) ==================== */
+        .app-header {
+            background-color: var(--bg-primary);
+            border-bottom: 2px solid var(--bark-brown);
+            height: 72px;
+            padding: 0 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .logo-img {
+            height: 44px;
+            width: auto;
+            object-fit: contain;
+            mix-blend-mode: multiply;
+            transition: var(--transition-smooth);
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--rough-charcoal);
+            letter-spacing: 1px;
+            line-height: 1.2;
+            transition: var(--transition-smooth);
+        }
+
+        .logo-subtitle {
+            font-size: 0.7rem;
+            color: var(--bark-brown);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .logo-container:hover .logo-img {
+            transform: scale(1.08) rotate(5deg);
+        }
+
+        .logo-container:hover .logo-title {
+            color: var(--enlace-activo);
+        }
+
+        .header-center {
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 0.5rem;
+            height: 100%;
+            align-items: center;
+        }
+
+        .nav-item {
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition-smooth);
+        }
+
+        .nav-link i {
+            font-size: 1rem;
+            transition: var(--transition-smooth);
+        }
+
+        .nav-link:hover {
+            color: var(--rough-charcoal);
+            background-color: var(--bg-hover);
+        }
+
+        .nav-link.active {
+            color: var(--wildwood-green);
+            background-color: rgba(30, 86, 18, 0.08);
+            border: 1px solid rgba(30, 86, 18, 0.15);
+        }
+
+        .nav-link:hover i {
+            transform: translateY(-2px);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .notifications-wrapper {
+            position: relative;
+        }
+
+        .notifications-btn {
+            background: none;
+            border: none;
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition-smooth);
+            position: relative;
+        }
+
+        .notifications-btn:hover {
+            background-color: var(--bg-hover);
+            color: var(--rough-charcoal);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            background-color: var(--enlace-activo);
+            color: var(--rough-charcoal);
+            font-size: 0.65rem;
+            font-weight: 800;
+            min-width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--bg-primary);
+        }
+
+        .profile-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            padding: 0.35rem 0.75rem;
+            border-radius: 30px;
+            background-color: var(--bg-hover);
+            border: 1px solid var(--border-light);
+            transition: var(--transition-smooth);
+        }
+
+        .profile-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--bark-brown);
+        }
+
+        .profile-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .profile-name {
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: var(--rough-charcoal);
+        }
+
+        .profile-role {
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* ==================== CUERPO PRINCIPAL ==================== */
+        .main-content {
+            max-width: 1200px;
+            width: 100%;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+            display: grid;
+            grid-template-columns: 4fr 8fr;
+            gap: 2rem;
+            flex: 1;
+        }
+
+        /* Tarjetas */
+        .card {
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+            position: relative;
+        }
+
+        .card-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--rough-charcoal);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-bottom: 1px solid var(--border-light);
+            padding-bottom: 0.5rem;
+        }
+
+        /* --- TABS DEL PANEL DERECHO DE PERFIL --- */
+        .profile-tabs-header {
+            display: flex;
+            border-bottom: 2px solid var(--border-light);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .profile-tab-btn {
+            background: none;
+            border: none;
+            padding: 0.75rem 1rem;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            position: relative;
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .profile-tab-btn::after {
+            content: "";
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background-color: var(--wildwood-green);
+            border-radius: 3px;
+            transform: scaleX(0);
+            transition: var(--transition-smooth);
+        }
+
+        .profile-tab-btn:hover {
+            color: var(--rough-charcoal);
+            background-color: rgba(44, 44, 44, 0.02);
+        }
+
+        .profile-tab-btn.active {
+            color: var(--wildwood-green);
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border-light);
+            border-bottom: 1px solid var(--bg-primary);
+        }
+
+        .profile-tab-btn.active::after {
+            transform: scaleX(1);
+        }
+
+        .profile-tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .profile-tab-content.active {
+            display: block;
+        }
+
+        /* --- COLUMNA PERFIL (IZQUIERDA) --- */
+        .profile-card-top {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-light);
+            margin-bottom: 1rem;
+        }
+
+        .profile-avatar-large {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--bark-brown);
+            box-shadow: 0 4px 10px rgba(139, 94, 60, 0.2);
+            margin-bottom: 1rem;
+            transition: var(--transition-smooth);
+        }
+
+        .profile-avatar-large:hover {
+            transform: scale(1.03);
+            border-color: var(--enlace-activo);
+        }
+
+        .display-username {
+            font-family: 'Cinzel', serif;
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--rough-charcoal);
+        }
+
+        .display-email {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
+            font-weight: 500;
+        }
+
+        .profile-bio {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .btn-edit-toggle {
+            width: 100%;
+            height: 38px;
+            background-color: var(--bg-hover);
+            color: var(--rough-charcoal);
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            font-family: inherit;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-edit-toggle:hover {
+            background-color: var(--wildwood-green);
+            color: #FFFFFF;
+            border-color: var(--wildwood-green);
+        }
+
+        /* Formulario de Edición (Oculto al inicio) */
+        .edit-form-container {
+            display: none;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px dashed var(--border-light);
+            animation: fadeIn 0.4s ease;
+        }
+
+        .edit-form-container.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .form-group label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--rough-charcoal);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-input {
+            width: 100%;
+            height: 38px;
+            background-color: rgba(44, 44, 44, 0.02);
+            border: 1px solid var(--border-light);
+            border-radius: 6px;
+            padding: 0 0.75rem;
+            font-family: inherit;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            outline: none;
+            transition: var(--transition-smooth);
+        }
+
+        .form-input:focus {
+            background-color: #FFFFFF;
+            border-color: var(--wildwood-green);
+        }
+
+        textarea.form-input {
+            height: 70px;
+            padding-top: 0.5rem;
+            resize: none;
+        }
+
+        .edit-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .btn-save {
+            flex: 1;
+            height: 36px;
+            background-color: var(--wildwood-green);
+            color: #FFFFFF;
+            border: none;
+            border-radius: 6px;
+            font-family: inherit;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .btn-save:hover {
+            background-color: var(--enlace-activo);
+            color: var(--rough-charcoal);
+        }
+
+        .btn-cancel {
+            flex: 1;
+            height: 36px;
+            background-color: transparent;
+            color: var(--text-secondary);
+            border: 1px solid var(--border-light);
+            border-radius: 6px;
+            font-family: inherit;
+            font-weight: 700;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .btn-cancel:hover {
+            background-color: rgba(44, 44, 44, 0.03);
+            color: var(--rough-charcoal);
+        }
+
+        /* Cuentas Enlazadas */
+        .account-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            border-radius: 8px;
+            background-color: rgba(44, 44, 44, 0.02);
+            border: 1px solid rgba(139, 94, 60, 0.05);
+            margin-bottom: 0.75rem;
+            transition: var(--transition-smooth);
+        }
+
+        .account-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .account-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .account-icon {
+            font-size: 1.3rem;
+        }
+
+        .account-icon.google {
+            color: #DB4437;
+        }
+
+        .account-icon.patreon {
+            color: #FF424D;
+        }
+
+        .account-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .account-name {
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: var(--rough-charcoal);
+        }
+
+        .account-status {
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
+
+        .account-status.connected {
+            color: var(--resaltado-textual);
+        }
+
+        .account-status.disconnected {
+            color: var(--text-muted);
+        }
+
+        .btn-link-action {
+            padding: 0.4rem 0.8rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: var(--transition-smooth);
+        }
+
+        .btn-link-action.disconnect {
+            background-color: transparent;
+            color: var(--text-secondary);
+            border: 1px solid var(--border-light);
+        }
+
+        .btn-link-action.disconnect:hover {
+            background-color: rgba(219, 68, 55, 0.05);
+            color: #DB4437;
+            border-color: rgba(219, 68, 55, 0.2);
+        }
+
+        .btn-link-action.connect {
+            background-color: var(--wildwood-green);
+            color: #FFFFFF;
+            border: none;
+        }
+
+        .btn-link-action.connect:hover {
+            background-color: var(--enlace-activo);
+            color: var(--rough-charcoal);
+        }
+
+        /* --- ESTILOS DE ESTADÍSTICAS DEL JUGADOR --- */
+        .global-stats-card {
+            background: linear-gradient(135deg, rgba(139, 94, 60, 0.05) 0%, rgba(30, 86, 18, 0.03) 100%);
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .global-stat-col {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .global-stat-title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--rough-charcoal);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Colores Favoritos del Jugador */
+        .player-colors-bar {
+            display: flex;
+            height: 14px;
+            border-radius: 7px;
+            overflow: hidden;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            margin-top: 0.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .player-color-segment {
+            height: 100%;
+        }
+
+        .player-colors-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        .legend-color-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            border: 1px solid rgba(0, 0, 0, 0.15);
+        }
+
+        /* --- COLUMNA DE CONTENIDOS (DERECHA) --- */
+        .decks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .deck-card {
+            background-color: rgba(44, 44, 44, 0.02);
+            border: 1px solid var(--border-light);
+            border-radius: 10px;
+            padding: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: var(--transition-smooth);
+        }
+
+        .deck-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--terracotta-earth);
+            background-color: var(--bg-hover);
+        }
+
+        .deck-left-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            min-width: 0;
+        }
+
+        .deck-name {
+            font-family: 'Cinzel', serif;
+            font-weight: 800;
+            font-size: 1rem;
+            color: var(--rough-charcoal);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .deck-commander {
+            font-size: 0.75rem;
+            color: var(--resaltado-textual);
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .deck-meta {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            margin-top: 0.25rem;
+        }
+
+        .deck-color-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            display: inline-block;
+        }
+
+        .deck-winrate {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+        }
+
+        /* Grid de Cajas de Estadísticas de Torneo */
+        .tournament-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .t-stat-box {
+            background-color: rgba(44, 44, 44, 0.02);
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .t-stat-label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.2rem;
+        }
+
+        .t-stat-value {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--rough-charcoal);
+        }
+
+        .t-stat-value.highlight {
+            color: var(--wildwood-green);
+        }
+
+        /* --- SUB-TABS INTERNAS (Añadir carta o Lista) --- */
+        .subtabs-header {
+            display: flex;
+            gap: 0.35rem;
+            margin-bottom: 1.25rem;
+            border-bottom: 1px solid var(--border-light);
+            padding-bottom: 0.4rem;
+        }
+
+        .subtab-btn {
+            background: none;
+            border: none;
+            padding: 0.35rem 0.75rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            cursor: pointer;
+            border-radius: 6px;
+            transition: var(--transition-smooth);
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .subtab-btn:hover {
+            background-color: var(--bg-hover);
+            color: var(--rough-charcoal);
+        }
+
+        .subtab-btn.active {
+            background-color: var(--wildwood-green);
+            color: #FFFFFF;
+        }
+
+        .subtab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .subtab-content.active {
+            display: block;
+        }
+
+        /* Contenedores de Formulario */
+        .add-card-form {
+            background-color: rgba(44, 44, 44, 0.01);
+            border: 1px dashed var(--border-light);
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .form-row-inline {
+            display: flex;
+            gap: 0.75rem;
+            align-items: flex-end;
+        }
+
+        .form-row-inline .form-group {
+            flex: 1;
+            margin-bottom: 0;
+        }
+
+        .btn-add-action {
+            height: 38px;
+            background-color: var(--wildwood-green);
+            color: #FFFFFF;
+            border: none;
+            border-radius: 6px;
+            font-family: inherit;
+            font-weight: 700;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+            padding: 0 1rem;
+            white-space: nowrap;
+        }
+
+        .btn-add-action:hover {
+            background-color: var(--enlace-activo);
+            color: var(--rough-charcoal);
+        }
+
+        /* --- ESTILOS DE CARTAS SIMPLES (WISHLIST & INTERCAMBIO) --- */
+        .cards-list-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 1rem;
+        }
+
+        .mtg-card-simple {
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            gap: 0.4rem;
+            min-height: 90px;
+            transition: var(--transition-smooth);
+            cursor: pointer;
+            position: relative;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.01);
+        }
+
+        .mtg-card-simple:hover {
+            transform: translateY(-3px);
+            border-color: var(--terracotta-earth);
+            box-shadow: 0 6px 15px rgba(139, 94, 60, 0.06);
+        }
+
+        .mtg-card-simple .card-name-title {
+            font-family: 'Cinzel', serif;
+            font-size: 0.8rem;
+            font-weight: 800;
+            color: var(--rough-charcoal);
+            line-height: 1.2;
+            width: 100%;
+            word-wrap: break-word;
+        }
+
+        .mtg-card-simple .card-price-value {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--wildwood-green);
+        }
+
+        .card-delete-badge {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background-color: rgba(211, 47, 47, 0.1);
+            color: var(--r-mana);
+            font-size: 0.65rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: var(--transition-smooth);
+        }
+
+        .mtg-card-simple:hover .card-delete-badge {
+            opacity: 1;
+        }
+
+        .card-delete-badge:hover {
+            background-color: var(--r-mana);
+            color: #FFFFFF;
+        }
+
+        /* ==================== ESTILOS DEL FOOTER (footer.html) ==================== */
+        .app-footer {
+            background-color: var(--bg-primary);
+            border-top: 2px solid var(--bark-brown);
+            padding: 2rem 3rem;
+            margin-top: auto;
+            box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.04);
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
+        .footer-left {
+            flex: 1 1 350px;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .footer-copyright {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--rough-charcoal);
+        }
+
+        .footer-disclaimer {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .footer-disclaimer a {
+            color: var(--text-secondary);
+            text-decoration: underline;
+            transition: var(--transition-smooth);
+        }
+
+        .footer-disclaimer a:hover {
+            color: var(--enlace-activo);
+        }
+
+        .footer-right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 0.5rem;
+            min-width: 250px;
+        }
+
+        .creator-info {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .creator-name {
+            font-weight: 700;
+            color: var(--rough-charcoal);
+            text-decoration: none;
+            border-bottom: 2px solid transparent;
+            transition: var(--transition-smooth);
+        }
+
+        .creator-name:hover {
+            color: var(--enlace-activo);
+            border-bottom-color: var(--enlace-activo);
+        }
+
+        .heart-icon {
+            color: var(--enlace-activo);
+            animation: pulseHeart 1.5s infinite;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 0.8rem;
+            margin-top: 0.25rem;
+        }
+
+        .social-btn {
+            color: var(--text-secondary);
+            background-color: rgba(44, 44, 44, 0.04);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: var(--transition-smooth);
+            border: 1px solid rgba(139, 94, 60, 0.15);
+        }
+
+        .social-btn:hover {
+            color: var(--bg-primary);
+            background-color: var(--wildwood-green);
+            border-color: var(--wildwood-green);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(30, 86, 18, 0.2);
+        }
+
+        .social-btn.github:hover {
+            background-color: var(--rough-charcoal);
+            border-color: var(--rough-charcoal);
+            box-shadow: 0 4px 10px rgba(44, 44, 44, 0.2);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(5px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ==================== RESPONSIVE ==================== */
+        @media (max-width: 992px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+
+            .app-header {
+                padding: 0 1.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .global-stats-card {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .app-footer {
+                padding: 1.5rem;
+            }
+
+            .footer-container {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-right {
+                align-items: center;
+            }
+
+            .logo-subtitle {
+                display: none;
+            }
+
+            .nav-link span {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- CABECERA DEL SITIO (header.html) -->
+    <header class="app-header">
+
+        <!-- Izquierda: Logo y Nombre -->
+        <div class="header-left">
+            <a href="index.html" class="logo-container">
+                <img src="logo.png" alt="EDH Builder Logo" class="logo-img">
+                <div class="logo-text">
+                    <span class="logo-title">EDH Builder</span>
+                    <span class="logo-subtitle">Commander</span>
+                </div>
+            </a>
+        </div>
+
+        <!-- Centro: Pestañas de Navegación -->
+        <nav class="header-center">
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="deck.html" class="nav-link">
+                        <i class="fa-solid fa-layer-group"></i>
+                        <span>Mazos</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="community.html" class="nav-link">
+                        <i class="fa-solid fa-users"></i>
+                        <span>Comunidad</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="tournament.html" class="nav-link">
+                        <i class="fa-solid fa-trophy"></i>
+                        <span>Torneos</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="collection.html" class="nav-link">
+                        <i class="fa-solid fa-boxes-stacked"></i>
+                        <span>Colección</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="famiily.html" class="nav-link">
+                        <i class="fa-solid fa-people-roof"></i>
+                        <span>Familia</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Derecha: Campanita y Perfil -->
+        <div class="header-right">
+
+            <div class="notifications-wrapper">
+                <button class="notifications-btn" title="Notificaciones" aria-label="Notificaciones">
+                    <i class="fa-regular fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </button>
+            </div>
+
+            <!-- Perfil en Header -->
+            <a href="profile.html" class="profile-container"
+                style="border-color: var(--wildwood-green); background-color: rgba(30, 86, 18, 0.05);">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=100"
+                    alt="Avatar" class="profile-avatar" id="headerAvatar">
+                <div class="profile-info">
+                    <span class="profile-name" id="headerUsername">LilianaMagic</span>
+                    <span class="profile-role">Jugador</span>
+                </div>
+            </a>
+
+        </div>
+
+    </header>
+
+    <!-- CUERPO DEL PERFIL -->
+    <main class="main-content">
+
+        <!-- COLUMNA IZQUIERDA: Información y Enlaces -->
+        <div class="profile-left-column">
+
+            <!-- Tarjeta de Perfil General -->
+            <div class="card">
+                <div class="profile-card-top">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150"
+                        alt="Avatar Perfil Grande" class="profile-avatar-large" id="displayAvatar">
+                    <h2 class="display-username" id="displayUsername">LilianaMagic</h2>
+                    <span class="display-email" id="displayEmail">liliana@magic.com</span>
+                </div>
+
+                <div class="profile-bio" id="displayBio">
+                    Amante del cementerio y de reanimar criaturas. En busca de dominar el Commander local con mi mazo
+                    preferido.
+                </div>
+
+                <button class="btn-edit-toggle" id="editToggleBtn" onclick="toggleEditForm()">
+                    <i class="fa-solid fa-user-gear"></i>
+                    Editar Perfil
+                </button>
+
+                <!-- Formulario de Edición de Perfil (Oculto) -->
+                <div class="edit-form-container" id="editFormContainer">
+                    <div class="form-group">
+                        <label for="inputUsername">Nombre de Usuario</label>
+                        <input type="text" id="inputUsername" class="form-input" value="LilianaMagic">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputEmail">Email</label>
+                        <input type="email" id="inputEmail" class="form-input" value="liliana@magic.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="inputBio">Biografía</label>
+                        <textarea id="inputBio"
+                            class="form-input">Amante del cementerio y de reanimar criaturas. En busca de dominar el Commander local con mi mazo preferido.</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputAvatar">URL del Avatar (Opcional)</label>
+                        <input type="text" id="inputAvatar" class="form-input"
+                            value="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150">
+                    </div>
+
+                    <div class="edit-actions">
+                        <button class="btn-save" onclick="saveProfile()">Guardar</button>
+                        <button class="btn-cancel" onclick="toggleEditForm()">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tarjeta de Cuentas Enlazadas (LinkedAccounts) -->
+            <div class="card">
+                <h3 class="card-title"><i class="fa-solid fa-link"></i> Cuentas Enlazadas</h3>
+
+                <!-- Google Link -->
+                <div class="account-row" id="googleRow">
+                    <div class="account-info">
+                        <i class="fa-brands fa-google account-icon google"></i>
+                        <div class="account-details">
+                            <span class="account-name">Google</span>
+                            <span class="account-status connected" id="googleStatus">Conectado
+                                (liliana@gmail.com)</span>
+                        </div>
+                    </div>
+                    <button class="btn-link-action disconnect" id="googleBtn"
+                        onclick="toggleGoogleConnection()">Desvincular</button>
+                </div>
+
+                <!-- Patreon Link -->
+                <div class="account-row" id="patreonRow">
+                    <div class="account-info">
+                        <i class="fa-brands fa-patreon account-icon patreon"></i>
+                        <div class="account-details">
+                            <span class="account-name">Patreon</span>
+                            <span class="account-status disconnected" id="patreonStatus">Desconectado</span>
+                        </div>
+                    </div>
+                    <button class="btn-link-action connect" id="patreonBtn"
+                        onclick="togglePatreonConnection()">Vincular</button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- COLUMNA DERECHA: Pestañas Principales -->
+        <div class="profile-right-column">
+
+            <!-- Selector de Pestañas del Perfil -->
+            <div class="profile-tabs-header">
+                <button class="profile-tab-btn active" id="btn-decks-tab"
+                    onclick="switchProfileTab(event, 'tab-decks')">
+                    <i class="fa-solid fa-layer-group"></i> Mazos y Estadísticas
+                </button>
+                <button class="profile-tab-btn" id="btn-wishlist-tab" onclick="switchProfileTab(event, 'tab-wishlist')">
+                    <i class="fa-solid fa-heart"></i> Lista de Deseos (Wishlist)
+                </button>
+                <button class="profile-tab-btn" id="btn-trade-tab" onclick="switchProfileTab(event, 'tab-trade')">
+                    <i class="fa-solid fa-right-left"></i> Intercambio (Trade)
+                </button>
+            </div>
+
+            <!-- CONTENIDO PESTAÑA 1: MAZOS Y ESTADÍSTICAS -->
+            <div id="tab-decks" class="profile-tab-content active">
+
+                <!-- 1. LO PRIMERO: Listado de Mazos Registrados -->
+                <div class="card" style="margin-bottom: 1.5rem;">
+                    <h3 class="card-title"><i class="fa-solid fa-book-open"></i> Mis Mazos Registrados</h3>
+
+                    <div class="decks-grid">
+                        <!-- Mazo 1 (Gruul) -->
+                        <div class="deck-card">
+                            <div class="deck-left-info">
+                                <span class="deck-name">Meria Artifact Storm</span>
+                                <span class="deck-commander">Meria, Scholar of Antiquity</span>
+                                <div class="deck-meta">
+                                    <span class="deck-color-dot" style="background-color: var(--g-mana);"
+                                        title="Verde"></span>
+                                    <span class="deck-color-dot" style="background-color: var(--r-mana);"
+                                        title="Rojo"></span>
+                                    <span class="deck-winrate">WR: 62%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Mazo 2 (Sultai) -->
+                        <div class="deck-card">
+                            <div class="deck-left-info">
+                                <span class="deck-name">Muldrotha Graveyard Value</span>
+                                <span class="deck-commander">Muldrotha, the Gravetide</span>
+                                <div class="deck-meta">
+                                    <span class="deck-color-dot" style="background-color: var(--g-mana);"
+                                        title="Verde"></span>
+                                    <span class="deck-color-dot" style="background-color: var(--u-mana);"
+                                        title="Azul"></span>
+                                    <span class="deck-color-dot" style="background-color: var(--b-mana);"
+                                        title="Negro"></span>
+                                    <span class="deck-winrate">WR: 55%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. DESPUÉS: Estadísticas del Jugador -->
+                <div class="global-stats-card" style="margin-top: 1.5rem; margin-bottom: 0;">
+
+                    <!-- Columna: Colores Favoritos -->
+                    <div class="global-stat-col">
+                        <h4 class="global-stat-title"><i class="fa-solid fa-palette"></i> Colores Favoritos</h4>
+                        <div class="player-colors-bar">
+                            <div class="player-color-segment" style="background-color: var(--g-mana); width: 45%;"
+                                title="Verde: 45%"></div>
+                            <div class="player-color-segment" style="background-color: var(--r-mana); width: 25%;"
+                                title="Rojo: 25%"></div>
+                            <div class="player-color-segment" style="background-color: var(--u-mana); width: 18%;"
+                                title="Azul: 18%"></div>
+                            <div class="player-color-segment" style="background-color: var(--b-mana); width: 12%;"
+                                title="Negro: 12%"></div>
+                        </div>
+                        <div class="player-colors-legend">
+                            <span class="legend-item"><span class="legend-color-dot"
+                                    style="background-color: var(--g-mana);"></span> Verde (45%)</span>
+                            <span class="legend-item"><span class="legend-color-dot"
+                                    style="background-color: var(--r-mana);"></span> Rojo (25%)</span>
+                            <span class="legend-item"><span class="legend-color-dot"
+                                    style="background-color: var(--u-mana);"></span> Azul (18%)</span>
+                            <span class="legend-item"><span class="legend-color-dot"
+                                    style="background-color: var(--b-mana);"></span> Negro (12%)</span>
+                        </div>
+                    </div>
+
+                    <!-- Columna: Estadísticas de Torneo -->
+                    <div class="global-stat-col">
+                        <h4 class="global-stat-title"><i class="fa-solid fa-trophy"></i> Estadísticas de Torneo</h4>
+
+                        <div class="tournament-stats-grid">
+                            <div class="t-stat-box">
+                                <span class="t-stat-label">Torneos Jugados</span>
+                                <span class="t-stat-value">8</span>
+                            </div>
+                            <div class="t-stat-box">
+                                <span class="t-stat-label">Victorias / Derrotas</span>
+                                <span class="t-stat-value highlight">19 - 9</span>
+                            </div>
+                            <div class="t-stat-box">
+                                <span class="t-stat-label">Win Rate Torneo</span>
+                                <span class="t-stat-value">67.8%</span>
+                            </div>
+                            <div class="t-stat-box">
+                                <span class="t-stat-label">Copas / Títulos</span>
+                                <span class="t-stat-value" style="color: var(--enlace-activo);"><i
+                                        class="fa-solid fa-crown"></i> 1</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- CONTENIDO PESTAÑA 2: WISHLIST (Con Sub-pestañas para añadir) -->
+            <div id="tab-wishlist" class="profile-tab-content">
+                <div class="card">
+                    <div class="players-header"
+                        style="border-bottom: 1px solid var(--border-light); padding-bottom: 0.5rem; margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center;">
+                        <h3 class="card-title" style="border-bottom: none; margin-bottom: 0; padding-bottom: 0;"><i
+                                class="fa-solid fa-heart"></i> Mi Lista de Deseos (Wishlist)</h3>
+                        <span class="players-count" id="wishlist-count">4 cartas</span>
+                    </div>
+
+                    <!-- Subtabs para Wishlist -->
+                    <div class="subtabs-header" id="wishlist-subtabs">
+                        <button class="subtab-btn active"
+                            onclick="switchSubTab(event, 'wish-list-view', 'tab-wishlist')">
+                            <i class="fa-solid fa-list"></i> Ver Lista
+                        </button>
+                        <button class="subtab-btn" onclick="switchSubTab(event, 'wish-add-single', 'tab-wishlist')">
+                            <i class="fa-solid fa-plus"></i> Añadir Carta
+                        </button>
+                        <button class="subtab-btn" onclick="switchSubTab(event, 'wish-add-bulk', 'tab-wishlist')">
+                            <i class="fa-solid fa-file-import"></i> Añadir Lista de Cartas
+                        </button>
+                    </div>
+
+                    <!-- SUBTAB 1: Ver Lista -->
+                    <div id="wish-list-view" class="subtab-content active">
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
+                            Cartas añadidas a tu lista de deseos de EDH Builder. Haz clic sobre la "X" al pasar el
+                            cursor para borrar.
+                        </p>
+                        <div class="cards-list-grid" id="wishlist-grid">
+                            <!-- Carta 1 -->
+                            <div class="mtg-card-simple" id="wish-card-1" title="Gestionar Mana Crypt">
+                                <span class="card-name-title">Mana Crypt</span>
+                                <span class="card-price-value">180,00 €</span>
+                                <div class="card-delete-badge"
+                                    onclick="event.stopPropagation(); removeCard('wish-card-1', 'wishlist-count')"
+                                    title="Eliminar de Wishlist">
+                                    <i class="fa-solid fa-times"></i>
+                                </div>
+                            </div>
+
+                            <!-- Carta 2 -->
+                            <div class="mtg-card-simple" id="wish-card-2" title="Gestionar Sylvan Library">
+                                <span class="card-name-title">Sylvan Library</span>
+                                <span class="card-price-value">25,00 €</span>
+                                <div class="card-delete-badge"
+                                    onclick="event.stopPropagation(); removeCard('wish-card-2', 'wishlist-count')"
+                                    title="Eliminar de Wishlist">
+                                    <i class="fa-solid fa-times"></i>
+                                </div>
+                            </div>
+
+                            <!-- Carta 3 -->
+                            <div class="mtg-card-simple" id="wish-card-3" title="Gestionar Rhystic Study">
+                                <span class="card-name-title">Rhystic Study</span>
+                                <span class="card-price-value">35,00 €</span>
+                                <div class="card-delete-badge"
+                                    onclick="event.stopPropagation(); removeCard('wish-card-3', 'wishlist-count')"
+                                    title="Eliminar de Wishlist">
+                                    <i class="fa-solid fa-times"></i>
+                                </div>
+                            </div>
+
+                            <!-- Carta 4 -->
+                            <div class="mtg-card-simple" id="wish-card-4" title="Gestionar Cyclonic Rift">
+                                <span class="card-name-title">Cyclonic Rift</span>
+                                <span class="card-price-value">32,00 €</span>
+                                <div class="card-delete-badge"
+                                    onclick="event.stopPropagation(); removeCard('wish-card-4', 'wishlist-count')"
+                                    title="Eliminar de Wishlist">
+                                    <i class="fa-solid fa-times"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SUBTAB 2: Añadir Carta Individual -->
+                    <div id="wish-add-single" class="subtab-content">
+                        <div class="add-card-form">
+                            <h4 style="font-family: 'Cinzel', serif; font-size: 0.9rem; color: var(--rough-charcoal);">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i> Buscar y Añadir Carta</h4>
+                            <div class="form-row-inline">
+                                <div class="form-group">
+                                    <label for="wish-card-name-input">Nombre de la Carta</label>
+                                    <input type="text" id="wish-card-name-input" class="form-input"
+                                        placeholder="Ej: Black Lotus">
+                                </div>
+                                <button class="btn-add-action" onclick="addIndividualCard('wishlist')">
+                                    <i class="fa-solid fa-plus"></i> Añadir
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SUBTAB 3: Añadir Lista en Bloque -->
+                    <div id="wish-add-bulk" class="subtab-content">
+                        <div class="add-card-form">
+                            <h4 style="font-family: 'Cinzel', serif; font-size: 0.9rem; color: var(--rough-charcoal);">
+                                <i class="fa-solid fa-align-left"></i> Importar Lista de Cartas (Bulk)</h4>
+                            <div class="form-group">
+                                <label for="wish-bulk-textarea">Pega tu lista de cartas (una por línea)</label>
+                                <textarea id="wish-bulk-textarea" class="form-input" style="height: 120px;"
+                                    placeholder="Ejemplo:&#10;Mana Crypt&#10;Sylvan Library&#10;Sol Ring"></textarea>
+                            </div>
+                            <button class="btn-add-action" onclick="importBulkList('wishlist')"
+                                style="align-self: flex-start;">
+                                <i class="fa-solid fa-file-import"></i> Importar Lista
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- CONTENIDO PESTAÑA 3: INTERCAMBIO (Con Sub-pestañas para añadir) -->
+            <div id="tab-trade" class="profile-tab-content">
+                <div class="card">
+                    <div class="players-header"
+                        style="border-bottom: 1px solid var(--border-light); padding-bottom: 0.5rem; margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center;">
+                        <h3 class="card-title" style="border-bottom: none; margin-bottom: 0; padding-bottom: 0;"><i
+                                class="fa-solid fa-right-left"></i> Carpeta de Intercambio</h3>
+                        <span class="players-count" id="trade-count">4 cartas</span>
+                    </div>
+
+                    <!-- Subtabs para Intercambio -->
+                    <div class="subtabs-header" id="trade-subtabs">
+                        <button class="subtab-btn active" onclick="switchSubTab(event, 'trade-list-view', 'tab-trade')">
+                            <i class="fa-solid fa-list"></i> Ver Carpeta
+                        </button>
+                        <button class="subtab-btn" onclick="switchSubTab(event, 'trade-add-single', 'tab-trade')">
+                            <i class="fa-solid fa-plus"></i> Añadir Carta
+                        </button>
+                        <button class="subtab-btn" onclick="switchSubTab(event, 'trade-add-bulk', 'tab-trade')">
+                            <i class="fa-solid fa-file-import"></i> Añadir Lista de Cartas
+                        </button>
+                    </div>
+
+                    <!-- SUBTAB 1: Ver Carpeta -->
+                    <div id="trade-list-view" class="subtab-content active">
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
+                            Tus cartas marcadas para venta o intercambio. Haz clic sobre la carta para editar su precio.
+                        </p>
+                        <div class="cards-list-grid" id="trade-grid">
+                            <!-- Carta 1 -->
+                            <div class="mtg-card-simple" id="trade-card-1"
+                                onclick="editTradePrice('trade-card-1', 'Demonic Tutor')"
+                                title="Haz clic para cambiar precio">
+                                <span class="card-name-title">Demonic Tutor</span>
+                                <span class="card-price-value">40,00 €</span>
+                                <div class="card-delete-badge"
+                                    onclick="event.stopPropagation(); removeCard('trade-card-1', 'trade-count')"
+                                    title="Retirar de intercambio">
+                                    <i class="fa-solid fa-times"></i>
+                                </div>
+                            </div>
+
+                            <!-- Carta 2 -->
+                            <div class="mtg-card-simple" id="trade-card-2"
+                                onclick="editTradePrice('trade-card-2', 'Esper Sentinel')"
+                                title="Haz clic para cambiar precio">
+                                <span class="card-name-title">Esper Sentinel</span>
+                                <span class="card-price-value">28,00 €</span>
+                                <div class="card-delete-badge"
+                                    onclick="event.stopPropagation(); removeCard('trade-card-2', 'trade-count')"
+                                    title="Retirar de intercambio">
+                                    <i class="fa-solid fa-times"></i>
+                                </div>
+                            </div>
+
+                            <!-- Carta 3 -->
+                            <div class="mtg-card-simple" id="trade-card-3"
+                                onclick="editTradePrice('trade-card-3', 'Ledger Shredder')"
+                                title="Haz clic para cambiar precio">
+                                <span class="card-name-title">Ledger Shredder</span>
+                                <span class="card-price-value">12,00 €</span>
+                                <div class="card-delete-badge"
+                                    onclick="event.stopPropagation(); removeCard('trade-card-3', 'trade-count')"
+                                    title="Retirar de intercambio">
+                                    <i class="fa-solid fa-times"></i>
+                                </div>
+                            </div>
+
+                            <!-- Carta 4 -->
+                            <div class="mtg-card-simple" id="trade-card-4"
+                                onclick="editTradePrice('trade-card-4', 'Blood Moon')"
+                                title="Haz clic para cambiar precio">
+                                <span class="card-name-title">Blood Moon</span>
+                                <span class="card-price-value">10,00 €</span>
+                                <div class="card-delete-badge"
+                                    onclick="event.stopPropagation(); removeCard('trade-card-4', 'trade-count')"
+                                    title="Retirar de intercambio">
+                                    <i class="fa-solid fa-times"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SUBTAB 2: Añadir Carta Individual -->
+                    <div id="trade-add-single" class="subtab-content">
+                        <div class="add-card-form">
+                            <h4 style="font-family: 'Cinzel', serif; font-size: 0.9rem; color: var(--rough-charcoal);">
+                                <i class="fa-solid fa-plus-circle"></i> Añadir Carta a Intercambio</h4>
+                            <div class="form-row-inline">
+                                <div class="form-group">
+                                    <label for="trade-card-name-input">Nombre de la Carta</label>
+                                    <input type="text" id="trade-card-name-input" class="form-input"
+                                        placeholder="Ej: Ragavan, Nimble Pilferer">
+                                </div>
+                                <button class="btn-add-action" onclick="addIndividualCard('trade')">
+                                    <i class="fa-solid fa-plus"></i> Añadir
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SUBTAB 3: Añadir Lista en Bloque -->
+                    <div id="trade-add-bulk" class="subtab-content">
+                        <div class="add-card-form">
+                            <h4 style="font-family: 'Cinzel', serif; font-size: 0.9rem; color: var(--rough-charcoal);">
+                                <i class="fa-solid fa-align-left"></i> Importar Lista a Intercambio (Bulk)</h4>
+                            <div class="form-group">
+                                <label for="trade-bulk-textarea">Pega tu lista de intercambio (una por línea)</label>
+                                <textarea id="trade-bulk-textarea" class="form-input" style="height: 120px;"
+                                    placeholder="Ejemplo:&#10;Misty Rainforest&#10;Scalding Tarn&#10;Arid Mesa"></textarea>
+                            </div>
+                            <button class="btn-add-action" onclick="importBulkList('trade')"
+                                style="align-self: flex-start;">
+                                <i class="fa-solid fa-file-import"></i> Importar Lista
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- FOOTER DEL SITIO (footer.html) -->
+    <footer class="app-footer">
+        <div class="footer-container">
+
+            <div class="footer-left">
+                <span class="footer-copyright">
+                    © 2026 EDH Builder. Todos los derechos reservados.
+                </span>
+                <p class="footer-disclaimer">
+                    Este sitio web es un proyecto independiente creado por fans y para fans. Magic: The Gathering, sus
+                    expansiones y sus respectivas marcas registradas son propiedad de <a
+                        href="https://company.wizards.com/" target="_blank" rel="noopener noreferrer">Wizards of the
+                        Coast LLC</a>.
+                </p>
+            </div>
+
+            <div class="footer-right">
+                <span class="creator-info">
+                    Creado con <i class="fa-solid fa-heart heart-icon"></i> por
+                    <a href="https://github.com/ZurdiGonzi" class="creator-name" target="_blank"
+                        rel="noopener noreferrer">ZurdiGonzi</a>
+                </span>
+
+                <div class="social-links">
+                    <a href="https://github.com/ZurdiGonzi" class="social-btn github" title="GitHub" target="_blank"
+                        rel="noopener noreferrer">
+                        <i class="fa-brands fa-github"></i>
+                    </a>
+                    <a href="#" class="social-btn" title="Discord">
+                        <i class="fa-brands fa-discord"></i>
+                    </a>
+                    <a href="#" class="social-btn" title="Twitter / X">
+                        <i class="fa-brands fa-x-twitter"></i>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </footer>
+
+    <!-- INTERACTIVIDAD DE PERFIL Y ANALÍTICAS -->
+    <script>
+        // Cambiar pestañas del perfil (Mazos, Wishlist, Intercambio)
+        function switchProfileTab(evt, tabId) {
+            const contents = document.getElementsByClassName("profile-tab-content");
+            for (let i = 0; i < contents.length; i++) {
+                contents[i].classList.remove("active");
+            }
+
+            const buttons = document.getElementsByClassName("profile-tab-btn");
+            for (let i = 0; i < buttons.length; i++) {
+                buttons[i].classList.remove("active");
+            }
+
+            document.getElementById(tabId).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+
+        // Cambiar sub-pestañas internas (Ver Lista, Añadir, Bulk)
+        function switchSubTab(evt, subtabId, parentTabId) {
+            const parent = document.getElementById(parentTabId);
+
+            // Ocultar sub-contenidos dentro de esta pestaña
+            const subcontents = parent.getElementsByClassName("subtab-content");
+            for (let i = 0; i < subcontents.length; i++) {
+                subcontents[i].classList.remove("active");
+            }
+
+            // Desactivar botones de subtab
+            const subbtns = parent.getElementsByClassName("subtab-btn");
+            for (let i = 0; i < subbtns.length; i++) {
+                subbtns[i].classList.remove("active");
+            }
+
+            // Activar
+            document.getElementById(subtabId).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+
+        // Contador de ID único autoincremental para las nuevas cartas del DOM
+        let cardIdCounter = 100;
+
+        // Añadir una carta individual
+        function addIndividualCard(listType) {
+            const nameInput = document.getElementById(`${listType}-card-name-input`);
+            const name = nameInput.value.trim();
+
+            if (!name) {
+                alert("Por favor, introduce el nombre de la carta.");
+                return;
+            }
+
+            // Precio aleatorio simulado entre 1.50€ y 49.99€
+            const randomPriceVal = (Math.random() * (49.99 - 1.50) + 1.50).toFixed(2);
+            const price = randomPriceVal + " €";
+            const gridId = `${listType}-grid`;
+            const countId = `${listType}-count`;
+            const uniqueId = `${listType}-card-${cardIdCounter++}`;
+
+            const grid = document.getElementById(gridId);
+            const countSpan = document.getElementById(countId);
+
+            // Crear el elemento HTML de la carta simple
+            const cardEl = document.createElement("div");
+            cardEl.className = "mtg-card-simple";
+            cardEl.id = uniqueId;
+
+            if (listType === 'trade') {
+                cardEl.setAttribute("onclick", `editTradePrice('${uniqueId}', '${name.replace(/'/g, "\\'")}')`);
+                cardEl.title = "Haz clic para cambiar precio";
+                cardEl.innerHTML = `
+                    <span class="card-name-title">${name}</span>
+                    <span class="card-price-value">${price}</span>
+                    <div class="card-delete-badge" onclick="event.stopPropagation(); removeCard('${uniqueId}', '${countId}')" title="Retirar de intercambio">
+                        <i class="fa-solid fa-times"></i>
+                    </div>
+                `;
+            } else {
+                cardEl.title = `Gestionar ${name}`;
+                cardEl.innerHTML = `
+                    <span class="card-name-title">${name}</span>
+                    <span class="card-price-value">${price}</span>
+                    <div class="card-delete-badge" onclick="event.stopPropagation(); removeCard('${uniqueId}', '${countId}')" title="Eliminar de Wishlist">
+                        <i class="fa-solid fa-times"></i>
+                    </div>
+                `;
+            }
+
+            // Insertar al inicio de la lista
+            grid.insertBefore(cardEl, grid.firstChild);
+
+            // Incrementar contador
+            const currentCount = parseInt(countSpan.textContent);
+            countSpan.textContent = (currentCount + 1) + " cartas";
+
+            // Limpiar inputs
+            nameInput.value = "";
+
+            // Volver a la subtab de vista de lista
+            const listBtn = document.querySelector(`#${listType}-subtabs .subtab-btn:first-child`);
+            listBtn.click();
+
+            alert(`¡"${name}" añadida correctamente!`);
+        }
+
+        // Importar lista en lote (Bulk)
+        function importBulkList(listType) {
+            const textarea = document.getElementById(`${listType}-bulk-textarea`);
+            const lines = textarea.value.split("\n");
+
+            let addedCount = 0;
+            const gridId = `${listType}-grid`;
+            const countId = `${listType}-count`;
+            const grid = document.getElementById(gridId);
+            const countSpan = document.getElementById(countId);
+
+            lines.forEach(line => {
+                const name = line.trim();
+                if (name.length > 0) {
+                    // Precio aleatorio simulado entre 1.50€ y 49.99€
+                    const randomPrice = (Math.random() * (49.99 - 1.50) + 1.50).toFixed(2);
+                    const uniqueId = `${listType}-card-${cardIdCounter++}`;
+
+                    const cardEl = document.createElement("div");
+                    cardEl.className = "mtg-card-simple";
+                    cardEl.id = uniqueId;
+
+                    if (listType === 'trade') {
+                        cardEl.setAttribute("onclick", `editTradePrice('${uniqueId}', '${name.replace(/'/g, "\\'")}')`);
+                        cardEl.title = "Haz clic para cambiar precio";
+                        cardEl.innerHTML = `
+                            <span class="card-name-title">${name}</span>
+                            <span class="card-price-value">${randomPrice} €</span>
+                            <div class="card-delete-badge" onclick="event.stopPropagation(); removeCard('${uniqueId}', '${countId}')" title="Retirar de intercambio">
+                                <i class="fa-solid fa-times"></i>
+                            </div>
+                        `;
+                    } else {
+                        cardEl.title = `Gestionar ${name}`;
+                        cardEl.innerHTML = `
+                            <span class="card-name-title">${name}</span>
+                            <span class="card-price-value">${randomPrice} €</span>
+                            <div class="card-delete-badge" onclick="event.stopPropagation(); removeCard('${uniqueId}', '${countId}')" title="Eliminar de Wishlist">
+                                <i class="fa-solid fa-times"></i>
+                            </div>
+                        `;
+                    }
+
+                    grid.insertBefore(cardEl, grid.firstChild);
+                    addedCount++;
+                }
+            });
+
+            if (addedCount === 0) {
+                alert("Por favor, introduce al menos una carta válida en la lista.");
+                return;
+            }
+
+            // Actualizar contador
+            const currentCount = parseInt(countSpan.textContent);
+            countSpan.textContent = (currentCount + addedCount) + " cartas";
+
+            // Limpiar textarea
+            textarea.value = "";
+
+            // Volver a la subtab de vista de lista
+            const listBtn = document.querySelector(`#${listType}-subtabs .subtab-btn:first-child`);
+            listBtn.click();
+
+            alert(`¡Se han importado ${addedCount} cartas correctamente!`);
+        }
+
+        // Acciones interactivas de wishlist y trade
+        function removeCard(cardId, countSpanId) {
+            const card = document.getElementById(cardId);
+            const countSpan = document.getElementById(countSpanId);
+
+            if (confirm("¿Estás seguro de que deseas retirar esta carta?")) {
+                card.style.opacity = 0;
+                card.style.transform = "scale(0.8)";
+                setTimeout(() => {
+                    card.remove();
+                    // Actualizar contador
+                    const currentCount = parseInt(countSpan.textContent);
+                    countSpan.textContent = Math.max(0, currentCount - 1) + " cartas";
+                }, 300);
+            }
+        }
+
+        function editTradePrice(cardId, cardName) {
+            const newPrice = prompt(`Introduce el nuevo precio de intercambio para "${cardName}":`);
+            if (newPrice !== null && newPrice.trim() !== "") {
+                const card = document.getElementById(cardId);
+                const priceValue = card.querySelector(".card-price-value");
+                priceValue.textContent = parseFloat(newPrice.replace(",", ".")).toFixed(2) + " €";
+                alert(`Precio actualizado con éxito para "${cardName}".`);
+            }
+        }
+
+        // Toggle Mostrar/Ocultar formulario de edición de perfil
+        function toggleEditForm() {
+            const form = document.getElementById("editFormContainer");
+            const btn = document.getElementById("editToggleBtn");
+
+            form.classList.toggle("active");
+
+            if (form.classList.contains("active")) {
+                btn.innerHTML = `<i class="fa-solid fa-angle-up"></i> Cerrar Edición`;
+            } else {
+                btn.innerHTML = `<i class="fa-solid fa-user-gear"></i> Editar Perfil`;
+            }
+        }
+
+        // Guardar información de perfil editada
+        function saveProfile() {
+            const username = document.getElementById("inputUsername").value.trim();
+            const email = document.getElementById("inputEmail").value.trim();
+            const bio = document.getElementById("inputBio").value.trim();
+            const avatar = document.getElementById("inputAvatar").value.trim();
+
+            if (!username || !email) {
+                alert("El nombre de usuario y el email son obligatorios.");
+                return;
+            }
+
+            // Actualizar elementos visuales del perfil
+            document.getElementById("displayUsername").textContent = username;
+            document.getElementById("displayEmail").textContent = email;
+            document.getElementById("displayBio").textContent = bio;
+
+            if (avatar) {
+                document.getElementById("displayAvatar").src = avatar;
+                document.getElementById("headerAvatar").src = avatar;
+            }
+
+            document.getElementById("headerUsername").textContent = username;
+
+            // Ocultar formulario
+            toggleEditForm();
+            alert("¡Perfil guardado correctamente!");
+        }
+
+        // Toggle de cuenta enlazada de Google
+        let googleConnected = true;
+        function toggleGoogleConnection() {
+            const status = document.getElementById("googleStatus");
+            const btn = document.getElementById("googleBtn");
+
+            if (googleConnected) {
+                if (confirm("¿Estás seguro de que deseas desvincular tu cuenta de Google?")) {
+                    googleConnected = false;
+                    status.textContent = "Desconectado";
+                    status.className = "account-status disconnected";
+                    btn.textContent = "Vincular";
+                    btn.className = "btn-link-action connect";
+                }
+            } else {
+                googleConnected = true;
+                status.textContent = "Conectado (liliana@gmail.com)";
+                status.className = "account-status connected";
+                btn.textContent = "Desvincular";
+                btn.className = "btn-link-action disconnect";
+                alert("Cuenta de Google vinculada con éxito.");
+            }
+        }
+
+        // Toggle de cuenta enlazada de Patreon
+        let patreonConnected = false;
+        function togglePatreonConnection() {
+            const status = document.getElementById("patreonStatus");
+            const btn = document.getElementById("patreonBtn");
+
+            if (patreonConnected) {
+                if (confirm("¿Estás seguro de que deseas desvincular tu cuenta de Patreon?")) {
+                    patreonConnected = false;
+                    status.textContent = "Desconectado";
+                    status.className = "account-status disconnected";
+                    btn.textContent = "Vincular";
+                    btn.className = "btn-link-action connect";
+                }
+            } else {
+                patreonConnected = true;
+                status.textContent = "Conectado (Patreon Tier: Planeswalker)";
+                status.className = "account-status connected";
+                btn.textContent = "Desvincular";
+                btn.className = "btn-link-action disconnect";
+                alert("Cuenta de Patreon vinculada con éxito. ¡Gracias por apoyar el proyecto!");
+            }
+        }
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EDH Builder - Iniciar Sesión</title>
+    <!-- Google Fonts: Inter para UI y Cinzel para estética MTG -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Paleta de colores del usuario en Tono Claro */
+        :root {
+            --rough-charcoal: #2C2C2C;
+            --wildwood-green: #1E5612;
+            --savage-cinder: #B9F22B;
+            --terracotta-earth: #D29C6A;
+            --bark-brown: #8B5E3C;
+            --enlace-activo: #F59D1E;
+            --resaltado-textual: #597E3A;
+            
+            /* Colores de soporte */
+            --bg-primary: #F4F1EA; /* Blanco roto / Hueso cálido */
+            --bg-page: #EAE6DF;    /* Pergamino suave */
+            --text-primary: #2C2C2C;
+            --text-secondary: #5A5A5A;
+            --text-muted: #888888;
+            --border-light: rgba(139, 94, 60, 0.2); /* Borde bark-brown suave */
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-page);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+        }
+
+        /* --- CONTENEDOR DE LOGIN (Centrado y no ocupa toda la pantalla) --- */
+        .login-card {
+            background-color: var(--bg-primary);
+            border: 2px solid var(--bark-brown);
+            border-radius: 16px;
+            width: 100%;
+            max-width: 900px; /* Tamaño ideal de tarjeta modal */
+            min-height: 520px;
+            display: flex;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Columna Izquierda: Imagen */
+        .login-image-side {
+            width: 45%;
+            position: relative;
+            background-color: var(--rough-charcoal);
+            border-right: 1px solid var(--border-light);
+        }
+
+        .login-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Capa superpuesta sobre la imagen para integrarla con el tono MTG */
+        .login-image-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(30, 86, 18, 0.25), rgba(44, 44, 44, 0.6));
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 2rem;
+            color: #FFFFFF;
+        }
+
+        .image-quote {
+            font-family: 'Cinzel', serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            line-height: 1.4;
+            margin-bottom: 0.5rem;
+            color: #FFFFFF;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+            letter-spacing: 0.5px;
+        }
+
+        .image-quote-author {
+            font-size: 0.75rem;
+            color: var(--savage-cinder);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+        }
+
+        /* Columna Derecha: Formulario */
+        .login-form-side {
+            width: 55%;
+            padding: 3rem 2.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* Cabecera del Formulario */
+        .form-header {
+            margin-bottom: 2rem;
+        }
+
+        .form-title-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-logo {
+            height: 32px;
+            width: auto;
+            mix-blend-mode: multiply;
+        }
+
+        .form-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--rough-charcoal);
+        }
+
+        .form-subtitle {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* Campos de Entrada */
+        .input-group {
+            margin-bottom: 1.25rem;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .input-label {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--rough-charcoal);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .input-field-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 1rem;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            transition: var(--transition-smooth);
+        }
+
+        .input-field {
+            width: 100%;
+            height: 44px;
+            background-color: rgba(44, 44, 44, 0.03);
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            padding: 0 1rem 0 2.5rem;
+            font-family: inherit;
+            font-size: 0.95rem;
+            color: var(--text-primary);
+            transition: var(--transition-smooth);
+            outline: none;
+        }
+
+        .input-field:focus {
+            background-color: #FFFFFF;
+            border-color: var(--wildwood-green);
+            box-shadow: 0 0 8px rgba(30, 86, 18, 0.1);
+        }
+
+        .input-field:focus + .input-icon {
+            color: var(--wildwood-green);
+        }
+
+        /* Opciones extra: Recuérdame y Olvidé contraseña */
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.75rem;
+            font-size: 0.85rem;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+            font-weight: 500;
+            user-select: none;
+        }
+
+        .remember-me input {
+            accent-color: var(--wildwood-green);
+            cursor: pointer;
+            width: 15px;
+            height: 15px;
+        }
+
+        .forgot-password {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition-smooth);
+        }
+
+        .forgot-password:hover {
+            color: var(--enlace-activo);
+            text-decoration: underline;
+        }
+
+        /* Botón de envío */
+        .submit-btn {
+            width: 100%;
+            height: 46px;
+            background-color: var(--wildwood-green);
+            color: #FFFFFF;
+            border: none;
+            border-radius: 8px;
+            font-family: inherit;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 10px rgba(30, 86, 18, 0.25);
+        }
+
+        .submit-btn:hover {
+            background-color: var(--enlace-activo);
+            box-shadow: 0 4px 12px rgba(245, 157, 30, 0.35);
+            transform: translateY(-1px);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Proveedores de Terceros (OAuth) */
+        .social-separator {
+            display: flex;
+            align-items: center;
+            margin: 1.5rem 0;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .social-separator::before,
+        .social-separator::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background-color: var(--border-light);
+        }
+
+        .social-separator span {
+            padding: 0 0.75rem;
+        }
+
+        .social-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .social-btn {
+            flex: 1;
+            height: 42px;
+            border: 1px solid var(--border-light);
+            background-color: #FFFFFF;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-family: inherit;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .social-btn:hover {
+            background-color: rgba(44, 44, 44, 0.03);
+            border-color: var(--text-secondary);
+            color: var(--rough-charcoal);
+        }
+
+        .social-btn i {
+            font-size: 1.05rem;
+        }
+
+        .social-btn.google i {
+            color: #DB4437;
+        }
+
+        .social-btn.patreon i {
+            color: #FF424D;
+        }
+
+        /* Enlace de Registro */
+        .register-footer {
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 1rem;
+        }
+
+        .register-link {
+            color: var(--enlace-activo);
+            text-decoration: none;
+            font-weight: 700;
+            transition: var(--transition-smooth);
+        }
+
+        .register-link:hover {
+            text-decoration: underline;
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .login-card {
+                flex-direction: column;
+                max-width: 480px;
+                min-height: auto;
+            }
+
+            .login-image-side {
+                width: 100%;
+                height: 180px;
+                border-right: none;
+                border-bottom: 1px solid var(--border-light);
+            }
+
+            .login-image-overlay {
+                padding: 1.25rem;
+            }
+
+            .image-quote {
+                font-size: 0.95rem;
+            }
+
+            .login-form-side {
+                width: 100%;
+                padding: 2rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Tarjeta del Formulario de Login -->
+    <div class="login-card">
+        
+        <!-- Columna Izquierda: Ilustración de Fantasía -->
+        <div class="login-image-side">
+            <img src="login_art.png" alt="Mesa de Hechizos y Cartas MTG" class="login-image">
+            <div class="login-image-overlay">
+                <blockquote class="image-quote">
+                    "Un buen mazo no solo contiene cartas, contiene tu voluntad."
+                </blockquote>
+                <cite class="image-quote-author">Coleccionista de Hechizos</cite>
+            </div>
+        </div>
+
+        <!-- Columna Derecha: Formulario -->
+        <div class="login-form-side">
+            
+            <!-- Cabecera de la tarjeta -->
+            <div class="form-header">
+                <div class="form-title-group">
+                    <img src="logo.png" alt="EDH Builder" class="form-logo">
+                    <h1 class="form-title">EDH Builder</h1>
+                </div>
+                <p class="form-subtitle">Bienvenido de nuevo a tu biblioteca de Commander.</p>
+            </div>
+
+            <!-- Formulario de Entrada -->
+            <form id="loginForm" onsubmit="event.preventDefault();">
+                
+                <!-- Input: Nombre de usuario o Email (Como en el Modelo: username / email) -->
+                <div class="input-group">
+                    <label class="input-label" for="usernameOrEmail">Usuario o Email</label>
+                    <div class="input-field-wrapper">
+                        <i class="fa-regular fa-user input-icon"></i>
+                        <input class="input-field" type="text" id="usernameOrEmail" placeholder="ej. JaceBeleren o jace@magic.com" required autocomplete="username">
+                    </div>
+                </div>
+
+                <!-- Input: Contraseña (Como en el Modelo: password) -->
+                <div class="input-group">
+                    <label class="input-label" for="password">Contraseña</label>
+                    <div class="input-field-wrapper">
+                        <i class="fa-solid fa-lock input-icon"></i>
+                        <input class="input-field" type="password" id="password" placeholder="Tu contraseña secreta" required autocomplete="current-password">
+                    </div>
+                </div>
+
+                <!-- Opciones Extra -->
+                <div class="form-options">
+                    <label class="remember-me">
+                        <input type="checkbox" id="rememberMe">
+                        Recuérdame
+                    </label>
+                    <a href="forgot-password.html" class="forgot-password">¿La has olvidado?</a>
+                </div>
+
+                <!-- Botón de Envío -->
+                <button type="submit" class="submit-btn">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    Iniciar Sesión
+                </button>
+
+                <!-- Separador de Redes / Proveedores de Terceros -->
+                <div class="social-separator">
+                    <span>O continuar con</span>
+                </div>
+
+                <!-- Proveedores enlazados (Google y Patreon en el modelo) -->
+                <div class="social-buttons">
+                    <button type="button" class="social-btn google" onclick="alert('Conectando con Google...');">
+                        <i class="fa-brands fa-google"></i>
+                        Google
+                    </button>
+                    <button type="button" class="social-btn patreon" onclick="alert('Conectando con Patreon...');">
+                        <i class="fa-brands fa-patreon"></i>
+                        Patreon
+                    </button>
+                </div>
+
+            </form>
+
+            <!-- Pie de Formulario: Registro -->
+            <div class="register-footer">
+                ¿Nuevo en la forja? <a href="register.html" class="register-link">Regístrate ahora</a>
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

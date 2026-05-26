@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EDH Builder - Comunidad</title>
+    <!-- Google Fonts: Inter para UI y Cinzel para toque de fantasía/MTG -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* Definición de la paleta de colores del usuario en Tono Claro */
+        :root {
+            --rough-charcoal: #2C2C2C;
+            --wildwood-green: #1E5612;
+            --savage-cinder: #B9F22B;
+            --terracotta-earth: #D29C6A;
+            --bark-brown: #8B5E3C;
+            --enlace-activo: #F59D1E;
+            --resaltado-textual: #597E3A;
+            
+            /* Colores de soporte */
+            --bg-primary: #F4F1EA; /* Blanco roto / Hueso cálido */
+            --bg-page: #EAE6DF;    /* Pergamino suave */
+            --text-primary: #2C2C2C;
+            --text-secondary: #5A5A5A;
+            --text-muted: #888888;
+            --bg-hover: rgba(44, 44, 44, 0.05);
+            --border-light: rgba(139, 94, 60, 0.15);
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            
+            /* Colores de Maná MTG */
+            --w-mana: #F9FAF4;
+            --u-mana: #0E68AB;
+            --b-mana: #1A1818;
+            --r-mana: #D32F2F;
+            --g-mana: #2E7D32;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-page);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ==================== ESTILOS DEL HEADER ==================== */
+        .app-header {
+            background-color: var(--bg-primary);
+            border-bottom: 2px solid var(--bark-brown);
+            height: 72px;
+            padding: 0 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .logo-img {
+            height: 44px;
+            width: auto;
+            object-fit: contain;
+            mix-blend-mode: multiply;
+            transition: var(--transition-smooth);
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--rough-charcoal);
+            line-height: 1.1;
+            letter-spacing: 0.5px;
+        }
+
+        .logo-subtitle {
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: var(--wildwood-green);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .header-center {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 0.9rem;
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            transition: var(--transition-smooth);
+        }
+
+        .nav-link:hover {
+            color: var(--wildwood-green);
+            background-color: var(--bg-hover);
+        }
+
+        .nav-link.active {
+            color: var(--wildwood-green);
+            background-color: rgba(30, 86, 18, 0.08);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .notifications-wrapper {
+            position: relative;
+        }
+
+        .notifications-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.25rem;
+            cursor: pointer;
+            position: relative;
+            padding: 0.25rem;
+            transition: var(--transition-smooth);
+        }
+
+        .notifications-btn:hover {
+            color: var(--wildwood-green);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            background-color: var(--r-mana);
+            color: white;
+            font-size: 0.65rem;
+            font-weight: 700;
+            border-radius: 50%;
+            width: 15px;
+            height: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--bg-primary);
+        }
+
+        .profile-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: var(--text-primary);
+            padding: 0.35rem 0.75rem;
+            border-radius: 30px;
+            border: 1.5px solid transparent;
+            transition: var(--transition-smooth);
+        }
+
+        .profile-container:hover {
+            background-color: rgba(30, 86, 18, 0.05);
+            border-color: var(--wildwood-green);
+        }
+
+        .profile-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1.5px solid var(--wildwood-green);
+        }
+
+        .profile-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .profile-name {
+            font-size: 0.8rem;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .profile-role {
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* ==================== CUERPO PRINCIPAL ==================== */
+        .main-content {
+            flex: 1;
+            width: 100%;
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+            display: grid;
+            grid-template-columns: 1.8fr 1fr;
+            gap: 2rem;
+        }
+
+        /* Títulos de sección */
+        .section-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: var(--rough-charcoal);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            border-bottom: 2px solid var(--border-light);
+            padding-bottom: 0.5rem;
+        }
+
+        .section-title i {
+            color: var(--wildwood-green);
+        }
+
+        /* Tarjeta genérica */
+        .card {
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+            margin-bottom: 1.5rem;
+        }
+
+        /* ==================== PERFILES DE LA COMUNIDAD ==================== */
+        .profiles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1rem;
+        }
+
+        .profile-name-card {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 1.25rem;
+            background-color: rgba(255, 255, 255, 0.4);
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            font-weight: 600;
+            color: var(--rough-charcoal);
+            transition: var(--transition-smooth);
+        }
+
+        .profile-name-card:hover {
+            background-color: rgba(255, 255, 255, 0.85);
+            border-color: var(--wildwood-green);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+        }
+
+        .profile-name-card i {
+            color: var(--wildwood-green);
+            font-size: 1.1rem;
+        }
+
+        /* ==================== COLUMNA DERECHA ==================== */
+
+        /* Buscador de Coincidencias de Wishlist */
+        .wishlist-matches-widget {
+            background: linear-gradient(135deg, rgba(30, 86, 18, 0.05) 0%, rgba(139, 94, 60, 0.05) 100%);
+            border: 2px solid var(--wildwood-green);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+        }
+
+        .widget-subtitle {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.25rem;
+            line-height: 1.4;
+        }
+
+        .btn-search-trigger {
+            width: 100%;
+            height: 42px;
+            background-color: var(--wildwood-green);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-family: inherit;
+            box-shadow: 0 4px 10px rgba(30, 86, 18, 0.15);
+        }
+
+        .btn-search-trigger:hover {
+            background-color: var(--enlace-activo);
+            box-shadow: 0 4px 12px rgba(245, 157, 30, 0.25);
+        }
+
+        .matches-results-container {
+            display: none;
+            margin-top: 1.25rem;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .match-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            padding: 0.75rem;
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border-light);
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+        }
+
+        .match-item-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--rough-charcoal);
+        }
+
+        .match-item-owner {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .match-item-owner i {
+            color: var(--wildwood-green);
+        }
+
+        .match-tag {
+            background-color: rgba(30, 86, 18, 0.1);
+            color: var(--wildwood-green);
+            font-size: 0.65rem;
+            padding: 0.1rem 0.4rem;
+            border-radius: 4px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        /* ==================== TORNEOS EN SIDEBAR ==================== */
+        .tournaments-sidebar-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .tournament-sidebar-card {
+            background-color: rgba(255, 255, 255, 0.3);
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            transition: var(--transition-smooth);
+        }
+
+        .tournament-sidebar-card:hover {
+            background-color: rgba(255, 255, 255, 0.6);
+            border-color: var(--wildwood-green);
+        }
+
+        .tourney-sidebar-title {
+            font-family: 'Cinzel', serif;
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: var(--rough-charcoal);
+        }
+
+        .tourney-sidebar-date {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .tourney-sidebar-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-top: 0.2rem;
+        }
+
+        .btn-tourney-link {
+            align-self: flex-start;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--wildwood-green);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            margin-top: 0.3rem;
+            transition: var(--transition-smooth);
+        }
+
+        .btn-tourney-link:hover {
+            color: var(--enlace-activo);
+            transform: translateX(3px);
+        }
+
+        /* Modal desactivado para este prototipo */
+
+        /* ==================== FOOTER ==================== */
+        .app-footer {
+            background-color: var(--bg-primary);
+            border-top: 2px solid var(--bark-brown);
+            padding: 2rem 3rem;
+            margin-top: auto;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
+        .footer-left {
+            max-width: 600px;
+        }
+
+        .footer-copyright {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--rough-charcoal);
+        }
+
+        .footer-disclaimer {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+            line-height: 1.4;
+        }
+
+        .footer-disclaimer a {
+            color: var(--wildwood-green);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .footer-disclaimer a:hover {
+            color: var(--enlace-activo);
+        }
+
+        .footer-right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 0.75rem;
+        }
+
+        .creator-info {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .heart-icon {
+            color: var(--r-mana);
+            animation: pulse 1.5s infinite;
+        }
+
+        .creator-name {
+            color: var(--wildwood-green);
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .creator-name:hover {
+            color: var(--enlace-activo);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .social-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: rgba(44, 44, 44, 0.05);
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: var(--transition-smooth);
+        }
+
+        .social-btn:hover {
+            background-color: var(--wildwood-green);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes modalPop {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Responsive styling */
+        @media (max-width: 900px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            .app-header {
+                padding: 0 1.5rem;
+            }
+            .footer-container {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            .footer-right {
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- CABECERA DEL SITIO -->
+    <header class="app-header">
+        
+        <!-- Izquierda: Logo -->
+        <div class="header-left">
+            <a href="index.html" class="logo-container">
+                <img src="logo.png" alt="EDH Builder Logo" class="logo-img">
+                <div class="logo-text">
+                    <span class="logo-title">EDH Builder</span>
+                    <span class="logo-subtitle">Commander</span>
+                </div>
+            </a>
+        </div>
+
+        <!-- Centro: Pestañas -->
+        <nav class="header-center">
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="deck.html" class="nav-link">
+                        <i class="fa-solid fa-layer-group"></i>
+                        <span>Mazos</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="community.html" class="nav-link active">
+                        <i class="fa-solid fa-users"></i>
+                        <span>Comunidad</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="tournament.html" class="nav-link">
+                        <i class="fa-solid fa-trophy"></i>
+                        <span>Torneos</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="collection.html" class="nav-link">
+                        <i class="fa-solid fa-boxes-stacked"></i>
+                        <span>Colección</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="famiily.html" class="nav-link">
+                        <i class="fa-solid fa-people-roof"></i>
+                        <span>Familia</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Derecha: Notificaciones y Perfil -->
+        <div class="header-right">
+            <div class="notifications-wrapper">
+                <button class="notifications-btn" title="Notificaciones" aria-label="Notificaciones">
+                    <i class="fa-regular fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </button>
+            </div>
+
+            <a href="profile.html" class="profile-container">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=100" alt="Avatar" class="profile-avatar">
+                <div class="profile-info">
+                    <span class="profile-name">LilianaMagic</span>
+                    <span class="profile-role">Jugador</span>
+                </div>
+            </a>
+        </div>
+
+    </header>
+
+    <!-- CUERPO DE COMUNIDAD -->
+    <main class="main-content">
+        
+        <!-- COLUMNA IZQUIERDA: Perfiles de la Comunidad (Solo Nombres) -->
+        <section class="card">
+            <h2 class="section-title"><i class="fa-solid fa-users"></i> Miembros de la Comunidad</h2>
+            
+            <div class="profiles-grid">
+                <div class="profile-name-card">
+                    <i class="fa-solid fa-user-tag"></i>
+                    <span>ZurdiGonzi</span>
+                </div>
+                <div class="profile-name-card">
+                    <i class="fa-solid fa-user-tag"></i>
+                    <span>GideonMTG</span>
+                </div>
+                <div class="profile-name-card">
+                    <i class="fa-solid fa-user-tag"></i>
+                    <span>JaceMind</span>
+                </div>
+                <div class="profile-name-card">
+                    <i class="fa-solid fa-user-tag"></i>
+                    <span>LilianaMagic</span>
+                </div>
+                <div class="profile-name-card">
+                    <i class="fa-solid fa-user-tag"></i>
+                    <span>ChandraFire</span>
+                </div>
+                <div class="profile-name-card">
+                    <i class="fa-solid fa-user-tag"></i>
+                    <span>GarrukBeast</span>
+                </div>
+                <div class="profile-name-card">
+                    <i class="fa-solid fa-user-tag"></i>
+                    <span>NissaNature</span>
+                </div>
+                <div class="profile-name-card">
+                    <i class="fa-solid fa-user-tag"></i>
+                    <span>TeferiTime</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- COLUMNA DERECHA: Buscador de Coincidencias en Wishlist y Eventos/Torneos -->
+        <aside>
+            
+            <!-- Widget de Coincidencias en Wishlist -->
+            <div class="wishlist-matches-widget">
+                <h3 style="font-family: 'Cinzel', serif; font-size: 1.1rem; color: var(--rough-charcoal); margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                    <i class="fa-solid fa-arrows-spin" style="color: var(--wildwood-green);"></i> Coincidencias de Wishlist
+                </h3>
+                <p class="widget-subtitle">Busca cartas de tu Wishlist que otros miembros tengan para intercambio.</p>
+                
+                <button class="btn-search-trigger" id="btn-run-matchmaker" onclick="runWishlistMatchmaker()">
+                    <i class="fa-solid fa-magnifying-glass"></i> Buscar Coincidencias
+                </button>
+
+                <!-- Panel de resultados de coincidencias -->
+                <div class="matches-results-container" id="matches-results-container">
+                    <div style="font-size: 0.8rem; font-weight: 700; margin-bottom: 0.75rem; color: var(--text-secondary); display: flex; align-items: center; justify-content: space-between;">
+                        <span>Coincidencias encontradas</span>
+                        <span class="match-tag" id="matches-count-tag">3</span>
+                    </div>
+                    <div id="matches-list">
+                        <!-- Se carga dinámicamente -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Torneos y Eventos de la Comunidad -->
+            <div class="card">
+                <h2 class="section-title" style="font-size: 1.15rem; margin-bottom: 1rem;"><i class="fa-solid fa-calendar-days"></i> Torneos y Eventos</h2>
+                
+                <div class="tournaments-sidebar-list">
+                    <!-- Torneo 1 -->
+                    <div class="tournament-sidebar-card">
+                        <span class="tourney-sidebar-title">I Open Regional de Commander</span>
+                        <div class="tourney-sidebar-date">
+                            <i class="fa-regular fa-calendar-days"></i> 12 de Junio, 2026 - 17:00h
+                        </div>
+                        <div class="tourney-sidebar-meta">
+                            <span>Organizador: ZurdiGonzi</span>
+                            <span>Tipo: Torneo Competitivo</span>
+                        </div>
+                        <a href="tournament.html" class="btn-tourney-link">Detalles del Torneo <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+
+                    <!-- Torneo 2 -->
+                    <div class="tournament-sidebar-card">
+                        <span class="tourney-sidebar-title">FNM Local de Commander</span>
+                        <div class="tourney-sidebar-date">
+                            <i class="fa-regular fa-calendar-days"></i> Todos los viernes - 18:30h
+                        </div>
+                        <div class="tourney-sidebar-meta">
+                            <span>Organizador: Magic Shop</span>
+                            <span>Tipo: Torneo Casual</span>
+                        </div>
+                        <a href="tournament.html" class="btn-tourney-link">Detalles del Torneo <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+
+                    <!-- Evento 3 -->
+                    <div class="tournament-sidebar-card">
+                        <span class="tourney-sidebar-title">Presentación Nueva Colección: Bloomburrow</span>
+                        <div class="tourney-sidebar-date">
+                            <i class="fa-regular fa-calendar-days"></i> 26 de Julio, 2026 - 16:00h
+                        </div>
+                        <div class="tourney-sidebar-meta">
+                            <span>Organizador: MTG Zone</span>
+                            <span>Tipo: Evento de Presentación</span>
+                        </div>
+                        <a href="tournament.html" class="btn-tourney-link">Detalles del Evento <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+
+                    <!-- Evento 4 -->
+                    <div class="tournament-sidebar-card">
+                        <span class="tourney-sidebar-title">Taller: Construcción de Barajas EDH</span>
+                        <div class="tourney-sidebar-date">
+                            <i class="fa-regular fa-calendar-days"></i> 5 de Agosto, 2026 - 19:00h
+                        </div>
+                        <div class="tourney-sidebar-meta">
+                            <span>Organizador: JaceMind</span>
+                            <span>Tipo: Evento Formativo</span>
+                        </div>
+                        <a href="tournament.html" class="btn-tourney-link">Detalles del Evento <i class="fa-solid fa-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+
+        </aside>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="app-footer">
+        <div class="footer-container">
+            
+            <div class="footer-left">
+                <span class="footer-copyright">
+                    © 2026 EDH Builder. Todos los derechos reservados.
+                </span>
+                <p class="footer-disclaimer">
+                    Este sitio web es un proyecto independiente creado por fans y para fans. Magic: The Gathering, sus expansiones y sus respectivas marcas registradas son propiedad de <a href="https://company.wizards.com/" target="_blank" rel="noopener noreferrer">Wizards of the Coast LLC</a>.
+                </p>
+            </div>
+
+            <div class="footer-right">
+                <span class="creator-info">
+                    Creado con <i class="fa-solid fa-heart heart-icon"></i> por 
+                    <a href="https://github.com/ZurdiGonzi" class="creator-name" target="_blank" rel="noopener noreferrer">ZurdiGonzi</a>
+                </span>
+                
+                <div class="social-links">
+                    <a href="https://github.com/ZurdiGonzi" class="social-btn github" title="GitHub" target="_blank" rel="noopener noreferrer">
+                        <i class="fa-brands fa-github"></i>
+                    </a>
+                    <a href="#" class="social-btn" title="Discord">
+                        <i class="fa-brands fa-discord"></i>
+                    </a>
+                    <a href="#" class="social-btn" title="Twitter / X">
+                        <i class="fa-brands fa-x-twitter"></i>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </footer>
+
+    <!-- LÓGICA Y SIMULACIÓN DE DATOS -->
+    <script>
+        // Simulación sencilla de coincidencia de Wishlist
+        function runWishlistMatchmaker() {
+            const container = document.getElementById("matches-results-container");
+            const list = document.getElementById("matches-list");
+            const btn = document.getElementById("btn-run-matchmaker");
+            
+            btn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> Buscando coincidencias...`;
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                btn.innerHTML = `<i class="fa-solid fa-magnifying-glass"></i> Buscar Coincidencias`;
+                btn.disabled = false;
+                
+                list.innerHTML = "";
+                
+                // Mocks de coincidencia basándose en la wishlist del usuario contra cartas de intercambio de otros usuarios
+                const mockMatches = [
+                    { card: "Mana Crypt", owner: "ZurdiGonzi", type: "Intercambio", price: "180,00 €" },
+                    { card: "Rhystic Study", owner: "JaceMind", type: "Intercambio", price: "35,00 €" },
+                    { card: "Esper Sentinel", owner: "GideonMTG", type: "Intercambio", price: "28,00 €" }
+                ];
+                
+                document.getElementById("matches-count-tag").textContent = mockMatches.length;
+                
+                mockMatches.forEach(match => {
+                    const div = document.createElement("div");
+                    div.className = "match-item";
+                    div.innerHTML = `
+                        <div class="match-item-header">
+                            <span>${match.card}</span>
+                            <span style="color: var(--resaltado-textual); font-weight: 700;">${match.price}</span>
+                        </div>
+                        <div class="match-item-owner">
+                            <i class="fa-solid fa-user-tag"></i>
+                            <span>Ofrecido por: <strong>${match.owner}</strong></span>
+                            <span class="match-tag" style="margin-left: auto;">${match.type}</span>
+                        </div>
+                    `;
+                    list.appendChild(div);
+                });
+                
+                container.style.display = "block";
+            }, 800);
+        }
+    </script>
+</body>
+</html>

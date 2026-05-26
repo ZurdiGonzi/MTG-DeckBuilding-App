@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EDH Builder - Footer</title>
+    <!-- Google Fonts: Inter para UI y Cinzel para toque de fantasía/MTG -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome para iconos rápidos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* Paleta de colores del usuario en Tono Claro */
+        :root {
+            --rough-charcoal: #2C2C2C;
+            --wildwood-green: #1E5612;
+            --savage-cinder: #B9F22B;
+            --terracotta-earth: #D29C6A;
+            --bark-brown: #8B5E3C;
+            --enlace-activo: #F59D1E;
+            --resaltado-textual: #597E3A;
+            
+            /* Colores de soporte */
+            --bg-primary: #F4F1EA; /* Blanco roto / Hueso cálido */
+            --bg-page: #EAE6DF;    /* Pergamino suave */
+            --text-primary: #2C2C2C;
+            --text-secondary: #5A5A5A;
+            --text-muted: #888888;
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-page);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+
+        /* --- ESTILOS DEL FOOTER --- */
+        .app-footer {
+            background-color: var(--bg-primary);
+            border-top: 2px solid var(--bark-brown);
+            padding: 2rem 3rem;
+            margin-top: auto;
+            box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.04);
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
+        /* Bloque Izquierdo: Copyright e información legal */
+        .footer-left {
+            flex: 1 1 350px;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .footer-copyright {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--rough-charcoal);
+        }
+
+        .footer-disclaimer {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .footer-disclaimer a {
+            color: var(--text-secondary);
+            text-decoration: underline;
+            transition: var(--transition-smooth);
+        }
+
+        .footer-disclaimer a:hover {
+            color: var(--enlace-activo);
+        }
+
+        /* Bloque Derecho: Creador y Redes */
+        .footer-right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 0.5rem;
+            min-width: 250px;
+        }
+
+        .creator-info {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .creator-name {
+            font-weight: 700;
+            color: var(--rough-charcoal);
+            text-decoration: none;
+            border-bottom: 2px solid transparent;
+            transition: var(--transition-smooth);
+        }
+
+        .creator-name:hover {
+            color: var(--enlace-activo);
+            border-bottom-color: var(--enlace-activo);
+        }
+
+        .heart-icon {
+            color: var(--enlace-activo);
+            animation: pulseHeart 1.5s infinite;
+        }
+
+        /* Iconos Sociales */
+        .social-links {
+            display: flex;
+            gap: 0.8rem;
+            margin-top: 0.25rem;
+        }
+
+        .social-btn {
+            color: var(--text-secondary);
+            background-color: rgba(44, 44, 44, 0.04);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: var(--transition-smooth);
+            border: 1px solid rgba(139, 94, 60, 0.15);
+        }
+
+        .social-btn:hover {
+            color: var(--bg-primary);
+            background-color: var(--wildwood-green);
+            border-color: var(--wildwood-green);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(30, 86, 18, 0.2);
+        }
+
+        .social-btn.github:hover {
+            background-color: var(--rough-charcoal);
+            border-color: var(--rough-charcoal);
+            box-shadow: 0 4px 10px rgba(44, 44, 44, 0.2);
+        }
+
+        /* Animación del corazón */
+        @keyframes pulseHeart {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .app-footer {
+                padding: 1.5rem 1.5rem;
+            }
+            .footer-container {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            .footer-right {
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Contenedor del Footer -->
+    <footer class="app-footer">
+        <div class="footer-container">
+            
+            <!-- Izquierda: Copyright e Info de Wizards of the Coast -->
+            <div class="footer-left">
+                <span class="footer-copyright">
+                    © 2026 EDH Builder. Todos los derechos reservados.
+                </span>
+                <p class="footer-disclaimer">
+                    Este sitio web es un proyecto independiente creado por fans y para fans. Magic: The Gathering, sus expansiones y sus respectivas marcas registradas son propiedad de <a href="https://company.wizards.com/" target="_blank" rel="noopener noreferrer">Wizards of the Coast LLC</a>.
+                </p>
+            </div>
+
+            <!-- Derecha: Creador y Redes -->
+            <div class="footer-right">
+                <span class="creator-info">
+                    Creado con <i class="fa-solid fa-heart heart-icon"></i> por 
+                    <a href="https://github.com/ZurdiGonzi" class="creator-name" target="_blank" rel="noopener noreferrer">ZurdiGonzi</a>
+                </span>
+                
+                <!-- Redes sociales del creador (GitHub, Discord, Twitter, etc.) -->
+                <div class="social-links">
+                    <a href="https://github.com/ZurdiGonzi" class="social-btn github" title="GitHub" target="_blank" rel="noopener noreferrer">
+                        <i class="fa-brands fa-github"></i>
+                    </a>
+                    <a href="#" class="social-btn" title="Discord">
+                        <i class="fa-brands fa-discord"></i>
+                    </a>
+                    <a href="#" class="social-btn" title="Twitter / X">
+                        <i class="fa-brands fa-x-twitter"></i>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </footer>
+
+</body>
+</html>

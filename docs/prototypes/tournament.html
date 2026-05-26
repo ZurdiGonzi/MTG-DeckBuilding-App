@@ -1,0 +1,1373 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EDH Builder - Detalle del Torneo</title>
+    <!-- Google Fonts: Inter para UI y Cinzel para toque de fantasía/MTG -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* Definición de la paleta de colores del usuario en Tono Claro */
+        :root {
+            --rough-charcoal: #2C2C2C;
+            --wildwood-green: #1E5612;
+            --savage-cinder: #B9F22B;
+            --terracotta-earth: #D29C6A;
+            --bark-brown: #8B5E3C;
+            --enlace-activo: #F59D1E;
+            --resaltado-textual: #597E3A;
+            
+            /* Colores de soporte */
+            --bg-primary: #F4F1EA; /* Blanco roto / Hueso cálido */
+            --bg-page: #EAE6DF;    /* Pergamino suave */
+            --text-primary: #2C2C2C;
+            --text-secondary: #5A5A5A;
+            --text-muted: #888888;
+            --bg-hover: rgba(44, 44, 44, 0.05);
+            --border-light: rgba(139, 94, 60, 0.15);
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-page);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ==================== ESTILOS DEL HEADER (header.html) ==================== */
+        .app-header {
+            background-color: var(--bg-primary);
+            border-bottom: 2px solid var(--bark-brown);
+            height: 72px;
+            padding: 0 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .logo-img {
+            height: 44px;
+            width: auto;
+            object-fit: contain;
+            mix-blend-mode: multiply;
+            transition: var(--transition-smooth);
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--rough-charcoal);
+            letter-spacing: 1px;
+            line-height: 1.2;
+            transition: var(--transition-smooth);
+        }
+
+        .logo-subtitle {
+            font-size: 0.7rem;
+            color: var(--bark-brown);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .logo-container:hover .logo-img {
+            transform: scale(1.08) rotate(5deg);
+        }
+
+        .logo-container:hover .logo-title {
+            color: var(--enlace-activo);
+        }
+
+        .header-center {
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 0.5rem;
+            height: 100%;
+            align-items: center;
+        }
+
+        .nav-item {
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition-smooth);
+        }
+
+        .nav-link i {
+            font-size: 1rem;
+            transition: var(--transition-smooth);
+        }
+
+        .nav-link:hover {
+            color: var(--rough-charcoal);
+            background-color: var(--bg-hover);
+        }
+
+        .nav-link.active {
+            color: var(--wildwood-green);
+            background-color: rgba(30, 86, 18, 0.08);
+            border: 1px solid rgba(30, 86, 18, 0.15);
+        }
+
+        .nav-link.active i {
+            color: var(--resaltado-textual);
+        }
+
+        .nav-link:hover i {
+            transform: translateY(-2px);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .notifications-wrapper {
+            position: relative;
+        }
+
+        .notifications-btn {
+            background: none;
+            border: none;
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition-smooth);
+            position: relative;
+        }
+
+        .notifications-btn:hover {
+            background-color: var(--bg-hover);
+            color: var(--rough-charcoal);
+        }
+
+        .notifications-btn:hover i {
+            animation: bellJiggle 0.6s ease;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            background-color: var(--enlace-activo);
+            color: var(--rough-charcoal);
+            font-size: 0.65rem;
+            font-weight: 800;
+            min-width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--bg-primary);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .profile-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            padding: 0.35rem 0.75rem;
+            border-radius: 30px;
+            background-color: var(--bg-hover);
+            border: 1px solid var(--border-light);
+            transition: var(--transition-smooth);
+        }
+
+        .profile-container:hover {
+            border-color: var(--bark-brown);
+            background-color: rgba(139, 94, 60, 0.05);
+        }
+
+        .profile-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--bark-brown);
+        }
+
+        .profile-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .profile-name {
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: var(--rough-charcoal);
+        }
+
+        .profile-role {
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* ==================== DISEÑO GENERAL DE LA PÁGINA ==================== */
+        .main-content {
+            max-width: 1200px;
+            width: 100%;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+            display: grid;
+            grid-template-columns: 7fr 3fr;
+            gap: 2rem;
+            flex: 1;
+        }
+
+        /* Tarjeta Genérica */
+        .card {
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+        }
+
+        /* Banner del Torneo */
+        .tournament-hero {
+            position: relative;
+            height: 280px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid var(--bark-brown);
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        }
+
+        .hero-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to top, rgba(44, 44, 44, 0.9) 20%, rgba(44, 44, 44, 0.3) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 2rem;
+            color: #FFFFFF;
+        }
+
+        .hero-tags {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .tag {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            letter-spacing: 0.5px;
+        }
+
+        .tag.format {
+            background-color: var(--wildwood-green);
+            color: #FFFFFF;
+        }
+
+        .tag.status {
+            background-color: var(--enlace-activo);
+            color: var(--rough-charcoal);
+        }
+
+        .hero-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .hero-meta {
+            display: flex;
+            gap: 1.5rem;
+            font-size: 0.9rem;
+            color: #EAE6DF;
+            font-weight: 500;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+        }
+
+        .hero-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .hero-meta i {
+            color: var(--savage-cinder);
+        }
+
+        /* Pestañas de Contenido (Tabs) */
+        .tabs-header {
+            display: flex;
+            border-bottom: 2px solid var(--border-light);
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 0.75rem 0.5rem;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            position: relative;
+            font-family: inherit;
+        }
+
+        .tab-btn::after {
+            content: "";
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background-color: var(--wildwood-green);
+            border-radius: 3px;
+            transform: scaleX(0);
+            transition: var(--transition-smooth);
+        }
+
+        .tab-btn:hover {
+            color: var(--rough-charcoal);
+        }
+
+        .tab-btn.active {
+            color: var(--wildwood-green);
+        }
+
+        .tab-btn.active::after {
+            transform: scaleX(1);
+        }
+
+        /* Contenido de las Pestañas */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--rough-charcoal);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-left: 4px solid var(--wildwood-green);
+            padding-left: 0.5rem;
+        }
+
+        .tab-content p {
+            line-height: 1.6;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        /* Lista de Premios y Reglas */
+        .details-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .details-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
+
+        .details-list li i {
+            color: var(--resaltado-textual);
+            margin-top: 0.2rem;
+        }
+
+        .prizes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .prize-card {
+            background-color: rgba(139, 94, 60, 0.05);
+            border: 1px solid var(--border-light);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            transition: var(--transition-smooth);
+        }
+
+        .prize-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--terracotta-earth);
+        }
+
+        .prize-rank {
+            font-family: 'Cinzel', serif;
+            font-weight: 800;
+            color: var(--bark-brown);
+            margin-bottom: 0.25rem;
+        }
+
+        .prize-value {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--wildwood-green);
+        }
+
+        /* Estructura del Bracket del Lobby */
+        .lobby-group {
+            background: var(--bg-hover);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid var(--border-light);
+        }
+
+        .lobby-group-title {
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--rough-charcoal);
+            margin-bottom: 0.75rem;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .match-card {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-light);
+            border-radius: 6px;
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .match-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .match-row.winner {
+            font-weight: 700;
+            color: var(--wildwood-green);
+        }
+
+        .match-row.winner span::after {
+            content: " 🏆";
+        }
+
+        .match-score {
+            font-weight: 700;
+            color: var(--rough-charcoal);
+        }
+
+        /* ==================== COLUMNA DERECHA (SIDEBAR) ==================== */
+        /* Panel de Registro */
+        .register-status-card {
+            border: 2px solid var(--bark-brown);
+            background-color: var(--bg-primary);
+            box-shadow: 0 4px 15px rgba(139, 94, 60, 0.05);
+        }
+
+        .register-stats {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: var(--rough-charcoal);
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 10px;
+            background-color: var(--bg-page);
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border-light);
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--wildwood-green), var(--resaltado-textual));
+            width: 37.5%; /* 24 / 64 = 37.5% */
+            transition: width 0.5s ease-in-out;
+        }
+
+        .register-cost {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .cost-value {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--wildwood-green);
+        }
+
+        .btn-register-action {
+            width: 100%;
+            height: 48px;
+            background-color: var(--wildwood-green);
+            color: #FFFFFF;
+            border: none;
+            border-radius: 8px;
+            font-family: inherit;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            box-shadow: 0 4px 10px rgba(30, 86, 18, 0.25);
+        }
+
+        .btn-register-action:hover {
+            background-color: var(--enlace-activo);
+            color: var(--rough-charcoal);
+            box-shadow: 0 4px 12px rgba(245, 157, 30, 0.35);
+        }
+
+        .btn-register-action.registered {
+            background-color: var(--bg-hover);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-light);
+            box-shadow: none;
+            cursor: not-allowed;
+        }
+
+        /* Lista de Jugadores Registrados */
+        .players-list-card {
+            max-height: 480px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .players-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .players-count {
+            background-color: var(--bg-hover);
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--bark-brown);
+        }
+
+        .players-scroll {
+            overflow-y: auto;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            padding-right: 0.25rem;
+        }
+
+        /* Estilo Scrollbar Premium */
+        .players-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .players-scroll::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .players-scroll::-webkit-scrollbar-thumb {
+            background-color: var(--border-light);
+            border-radius: 10px;
+        }
+
+        .player-row {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem;
+            border-radius: 8px;
+            background-color: rgba(44, 44, 44, 0.02);
+            border: 1px solid rgba(139, 94, 60, 0.05);
+            transition: var(--transition-smooth);
+        }
+
+        .player-row:hover {
+            background-color: var(--bg-hover);
+            border-color: var(--border-light);
+            transform: translateX(2px);
+        }
+
+        .player-avatar-circle {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: var(--bark-brown);
+            color: #FFFFFF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.85rem;
+            border: 2px solid var(--bg-primary);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .player-info {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            min-width: 0; /* Permite truncar texto */
+        }
+
+        .player-name {
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: var(--rough-charcoal);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .player-commander {
+            font-size: 0.7rem;
+            color: var(--resaltado-textual);
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .player-date {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            white-space: nowrap;
+        }
+
+        /* ==================== ESTILOS DEL FOOTER (footer.html) ==================== */
+        .app-footer {
+            background-color: var(--bg-primary);
+            border-top: 2px solid var(--bark-brown);
+            padding: 2rem 3rem;
+            margin-top: auto;
+            box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.04);
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
+        .footer-left {
+            flex: 1 1 350px;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .footer-copyright {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--rough-charcoal);
+        }
+
+        .footer-disclaimer {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .footer-disclaimer a {
+            color: var(--text-secondary);
+            text-decoration: underline;
+            transition: var(--transition-smooth);
+        }
+
+        .footer-disclaimer a:hover {
+            color: var(--enlace-activo);
+        }
+
+        .footer-right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 0.5rem;
+            min-width: 250px;
+        }
+
+        .creator-info {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .creator-name {
+            font-weight: 700;
+            color: var(--rough-charcoal);
+            text-decoration: none;
+            border-bottom: 2px solid transparent;
+            transition: var(--transition-smooth);
+        }
+
+        .creator-name:hover {
+            color: var(--enlace-activo);
+            border-bottom-color: var(--enlace-activo);
+        }
+
+        .heart-icon {
+            color: var(--enlace-activo);
+            animation: pulseHeart 1.5s infinite;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 0.8rem;
+            margin-top: 0.25rem;
+        }
+
+        .social-btn {
+            color: var(--text-secondary);
+            background-color: rgba(44, 44, 44, 0.04);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: var(--transition-smooth);
+            border: 1px solid rgba(139, 94, 60, 0.15);
+        }
+
+        .social-btn:hover {
+            color: var(--bg-primary);
+            background-color: var(--wildwood-green);
+            border-color: var(--wildwood-green);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(30, 86, 18, 0.2);
+        }
+
+        .social-btn.github:hover {
+            background-color: var(--rough-charcoal);
+            border-color: var(--rough-charcoal);
+            box-shadow: 0 4px 10px rgba(44, 44, 44, 0.2);
+        }
+
+        @keyframes pulseHeart {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+
+        @keyframes bellJiggle {
+            0%, 100% { transform: rotate(0); }
+            15% { transform: rotate(15deg); }
+            30% { transform: rotate(-12deg); }
+            45% { transform: rotate(10deg); }
+            60% { transform: rotate(-8deg); }
+            75% { transform: rotate(4deg); }
+            90% { transform: rotate(-2deg); }
+        }
+
+        /* ==================== RESPONSIVE ==================== */
+        @media (max-width: 992px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            .app-header {
+                padding: 0 1.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 1.6rem;
+            }
+            .hero-meta {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            .app-footer {
+                padding: 1.5rem;
+            }
+            .footer-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            .footer-right {
+                align-items: center;
+            }
+            .logo-subtitle {
+                display: none;
+            }
+            .nav-link span {
+                display: none;
+            }
+            .nav-link {
+                padding: 0.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- CABECERA DEL SITIO (Integración de header.html) -->
+    <header class="app-header">
+        
+        <!-- Izquierda: Logo y Nombre -->
+        <div class="header-left">
+            <a href="index.html" class="logo-container">
+                <img src="logo.png" alt="EDH Builder Logo" class="logo-img">
+                <div class="logo-text">
+                    <span class="logo-title">EDH Builder</span>
+                    <span class="logo-subtitle">Commander</span>
+                </div>
+            </a>
+        </div>
+
+        <!-- Centro: Pestañas de Navegación -->
+        <nav class="header-center">
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="deck.html" class="nav-link">
+                        <i class="fa-solid fa-layer-group"></i>
+                        <span>Mazos</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="community.html" class="nav-link">
+                        <i class="fa-solid fa-users"></i>
+                        <span>Comunidad</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="tournament.html" class="nav-link active">
+                        <i class="fa-solid fa-trophy"></i>
+                        <span>Torneos</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="collection.html" class="nav-link">
+                        <i class="fa-solid fa-boxes-stacked"></i>
+                        <span>Colección</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="famiily.html" class="nav-link">
+                        <i class="fa-solid fa-people-roof"></i>
+                        <span>Familia</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Derecha: Campanita y Perfil -->
+        <div class="header-right">
+            
+            <!-- Campanita de Notificaciones -->
+            <div class="notifications-wrapper">
+                <button class="notifications-btn" title="Notificaciones" aria-label="Notificaciones">
+                    <i class="fa-regular fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </button>
+            </div>
+
+            <!-- Perfil de Usuario en Header -->
+            <a href="profile.html" class="profile-container">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=100" alt="Avatar del usuario" class="profile-avatar">
+                <div class="profile-info">
+                    <span class="profile-name">LilianaMagic</span>
+                    <span class="profile-role">Jugador</span>
+                </div>
+            </a>
+
+        </div>
+
+    </header>
+
+    <!-- CUERPO PRINCIPAL DEL DETALLE DEL TORNEO -->
+    <main class="main-content">
+        
+        <!-- COLUMNA PRINCIPAL (70%) -->
+        <div class="primary-column">
+            
+            <!-- Banner del Torneo -->
+            <div class="tournament-hero">
+                <img src="tournament_banner.png" alt="Torneo Ancestral Hall" class="hero-img">
+                <div class="hero-overlay">
+                    <div class="hero-tags">
+                        <span class="tag format">Commander (EDH)</span>
+                        <span class="tag status">Inscripciones Abiertas</span>
+                    </div>
+                    <h1 class="hero-title">I Torneo Ancestral de Commander</h1>
+                    <div class="hero-meta">
+                        <span><i class="fa-regular fa-calendar-days"></i> 14 de Junio, 2026</span>
+                        <span><i class="fa-solid fa-location-dot"></i> La Taberna del Dragón Rojo</span>
+                        <span><i class="fa-solid fa-user-tie"></i> Org: ZurdiGonzi</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contenido con Pestañas Internas (Información / Reglas y Premios / Lobby) -->
+            <div class="card">
+                <div class="tabs-header">
+                    <button class="tab-btn active" onclick="switchTab(event, 'info-tab')">Información General</button>
+                    <button class="tab-btn" onclick="switchTab(event, 'rules-tab')">Reglas y Premios</button>
+                    <button class="tab-btn" onclick="switchTab(event, 'lobby-tab')">Lobby / Bracket</button>
+                </div>
+
+                <!-- Pestaña 1: Información -->
+                <div id="info-tab" class="tab-content active">
+                    <h2 class="section-title"><i class="fa-solid fa-circle-info"></i> Forja de Héroes</h2>
+                    <p>
+                        Te damos la bienvenida al torneo de Commander más esperado de la temporada. Pon a prueba tu mazo de EDH más competitivo en una atmósfera premium y amigable. El torneo se disputará bajo el reglamento multijugador clásico de Commander.
+                    </p>
+                    <p>
+                        Todos los jugadores jugarán un mínimo de 4 rondas de emparejamiento suizo en mesas de 4 personas. Los mejores 4 jugadores pasarán a la mesa final para definir al Campeón Ancestral.
+                    </p>
+
+                    <h2 class="section-title" style="margin-top: 1.5rem;"><i class="fa-solid fa-clock"></i> Horario del Evento</h2>
+                    <ul class="details-list">
+                        <li><i class="fa-regular fa-circle-check"></i> <strong>10:00 AM:</strong> Apertura de puertas y validación de Decklists.</li>
+                        <li><i class="fa-regular fa-circle-check"></i> <strong>10:30 AM:</strong> Emparejamiento e inicio de la Ronda 1.</li>
+                        <li><i class="fa-regular fa-circle-check"></i> <strong>02:00 PM:</strong> Pausa para el almuerzo.</li>
+                        <li><i class="fa-regular fa-circle-check"></i> <strong>03:30 PM:</strong> Rondas 3 y 4.</li>
+                        <li><i class="fa-regular fa-circle-check"></i> <strong>07:00 PM:</strong> Mesa Final (Top 4) y Entrega de Premios.</li>
+                    </ul>
+                </div>
+
+                <!-- Pestaña 2: Reglas y Premios -->
+                <div id="rules-tab" class="tab-content">
+                    <h2 class="section-title"><i class="fa-solid fa-gavel"></i> Reglamento del Torneo</h2>
+                    <ul class="details-list">
+                        <li><i class="fa-solid fa-ban"></i> <strong>Lista de prohibidas:</strong> Se aplicará la Banlist Oficial de Commander multijugador del RC.</li>
+                        <li><i class="fa-solid fa-circle-check"></i> <strong>Decklist obligatoria:</strong> Todos los participantes deberán tener su mazo registrado en EDH Builder antes de iniciar la primera ronda.</li>
+                        <li><i class="fa-solid fa-circle-check"></i> <strong>Reglas de Juego:</strong> Rondas de 75 minutos. En caso de no finalizar a tiempo, se aplicarán turnos adicionales según las reglas oficiales de MTR.</li>
+                    </ul>
+
+                    <h2 class="section-title" style="margin-top: 2rem;"><i class="fa-solid fa-gift"></i> Estructura de Premios</h2>
+                    <p>Los premios están calculados para un mínimo de 32 participantes y se distribuirán en formato de vales de tienda o cartas promo especiales:</p>
+                    
+                    <div class="prizes-grid">
+                        <div class="prize-card">
+                            <div class="prize-rank">1º Lugar</div>
+                            <div class="prize-value">250 €</div>
+                            <div class="footer-disclaimer" style="margin-top:0.25rem;">+ Trofeo y Carta Foil</div>
+                        </div>
+                        <div class="prize-card">
+                            <div class="prize-rank">2º Lugar</div>
+                            <div class="prize-value">120 €</div>
+                            <div class="footer-disclaimer" style="margin-top:0.25rem;">+ Carta Promo</div>
+                        </div>
+                        <div class="prize-card">
+                            <div class="prize-rank">3º-4º Lugar</div>
+                            <div class="prize-value">65 €</div>
+                            <div class="footer-disclaimer" style="margin-top:0.25rem;">Por jugador</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pestaña 3: Lobby / Bracket -->
+                <div id="lobby-tab" class="tab-content">
+                    <h2 class="section-title"><i class="fa-solid fa-network-wired"></i> Estado del Lobby</h2>
+                    <p>
+                        Aquí se muestran los emparejamientos y resultados de las mesas activas una vez comenzado el torneo. Las rondas se generan de forma automática según la puntuación acumulada.
+                    </p>
+
+                    <!-- Ronda 1 de Prueba -->
+                    <div class="lobby-group">
+                        <div class="lobby-group-title">
+                            <span>Mesa 1 - Ronda 1</span>
+                            <span class="tag status" style="background-color: var(--wildwood-green); color: #FFFFFF; font-size: 0.65rem;">Finalizado</span>
+                        </div>
+                        
+                        <div class="match-card">
+                            <div class="match-row winner">
+                                <span>ZurdiGonzi (Urza)</span>
+                                <span class="match-score">Ganador</span>
+                            </div>
+                            <div class="match-row">
+                                <span>JaceBeleren (Kess)</span>
+                                <span class="match-score">-</span>
+                            </div>
+                            <div class="match-row">
+                                <span>LilianaVess (Muldrotha)</span>
+                                <span class="match-score">-</span>
+                            </div>
+                            <div class="match-row">
+                                <span>NicolBolas (Nekusar)</span>
+                                <span class="match-score">-</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lobby-group">
+                        <div class="lobby-group-title">
+                            <span>Mesa 2 - Ronda 1</span>
+                            <span class="tag status" style="background-color: var(--resaltado-textual); color: #FFFFFF; font-size: 0.65rem;">En Curso</span>
+                        </div>
+                        
+                        <div class="match-card">
+                            <div class="match-row">
+                                <span>ChandraN (Torbran)</span>
+                                <span class="match-score">-</span>
+                            </div>
+                            <div class="match-row">
+                                <span>ArchmageKarn (Karn)</span>
+                                <span class="match-score">-</span>
+                            </div>
+                            <div class="match-row">
+                                <span>GideonJura (Kenrith)</span>
+                                <span class="match-score">-</span>
+                            </div>
+                            <div class="match-row">
+                                <span>NissaRevane (Lathril)</span>
+                                <span class="match-score">-</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- COLUMNA LATERAL (30%) -->
+        <aside class="sidebar-column">
+            
+            <!-- Caja de Registro al Torneo -->
+            <div class="card register-status-card">
+                <div class="register-stats">
+                    <span>Inscritos</span>
+                    <span id="playerRatio">24 / 64</span>
+                </div>
+                
+                <div class="progress-bar-container">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+
+                <div class="register-cost">
+                    <span>Precio de inscripción</span>
+                    <span class="cost-value">10,00 €</span>
+                </div>
+
+                <button class="btn-register-action" id="registerBtn" onclick="registerUser()">
+                    <i class="fa-solid fa-file-signature"></i>
+                    Inscribirse al Torneo
+                </button>
+            </div>
+
+            <!-- Lista de Jugadores Registrados (Lista aleatoria) -->
+            <div class="card players-list-card">
+                <div class="players-header">
+                    <h3 style="font-size: 1rem; font-weight: 700; color: var(--rough-charcoal);">Lista de Jugadores</h3>
+                    <span class="players-count" id="listCount">24 jugadores</span>
+                </div>
+
+                <div class="players-scroll" id="playersList">
+                    <!-- Jugador 1 -->
+                    <div class="player-row">
+                        <div class="player-avatar-circle" style="background-color: #1E5612;">ZG</div>
+                        <div class="player-info">
+                            <span class="player-name">ZurdiGonzi</span>
+                            <span class="player-commander">Urza, Lord High Artificer</span>
+                        </div>
+                        <span class="player-date">Hace 2h</span>
+                    </div>
+
+                    <!-- Jugador 2 -->
+                    <div class="player-row">
+                        <div class="player-avatar-circle" style="background-color: #8B5E3C;">JB</div>
+                        <div class="player-info">
+                            <span class="player-name">JaceBeleren</span>
+                            <span class="player-commander">Kess, Dissident Mage</span>
+                        </div>
+                        <span class="player-date">Hace 3h</span>
+                    </div>
+
+                    <!-- Jugador 3 -->
+                    <div class="player-row">
+                        <div class="player-avatar-circle" style="background-color: #D29C6A;">CN</div>
+                        <div class="player-info">
+                            <span class="player-name">ChandraN</span>
+                            <span class="player-commander">Torbran, Thane of Red Fell</span>
+                        </div>
+                        <span class="player-date">Hace 5h</span>
+                    </div>
+
+                    <!-- Jugador 4 -->
+                    <div class="player-row">
+                        <div class="player-avatar-circle" style="background-color: #2C2C2C;">LV</div>
+                        <div class="player-info">
+                            <span class="player-name">LilianaVess</span>
+                            <span class="player-commander">Muldrotha, the Gravetide</span>
+                        </div>
+                        <span class="player-date">Hace 1d</span>
+                    </div>
+
+                    <!-- Jugador 5 -->
+                    <div class="player-row">
+                        <div class="player-avatar-circle" style="background-color: #597E3A;">NB</div>
+                        <div class="player-info">
+                            <span class="player-name">NicolBolas</span>
+                            <span class="player-commander">Nekusar, the Mindrazer</span>
+                        </div>
+                        <span class="player-date">Hace 1d</span>
+                    </div>
+
+                    <!-- Jugador 6 -->
+                    <div class="player-row">
+                        <div class="player-avatar-circle" style="background-color: #F59D1E;">AK</div>
+                        <div class="player-info">
+                            <span class="player-name">ArchmageKarn</span>
+                            <span class="player-commander">Karn, Silver Golem</span>
+                        </div>
+                        <span class="player-date">Hace 2d</span>
+                    </div>
+
+                    <!-- Jugador 7 -->
+                    <div class="player-row">
+                        <div class="player-avatar-circle" style="background-color: #1E5612;">GJ</div>
+                        <div class="player-info">
+                            <span class="player-name">GideonJura</span>
+                            <span class="player-commander">Kenrith, the Returned King</span>
+                        </div>
+                        <span class="player-date">Hace 2d</span>
+                    </div>
+
+                    <!-- Jugador 8 -->
+                    <div class="player-row">
+                        <div class="player-avatar-circle" style="background-color: #8B5E3C;">NR</div>
+                        <div class="player-info">
+                            <span class="player-name">NissaRevane</span>
+                            <span class="player-commander">Lathril, Blade of the Elves</span>
+                        </div>
+                        <span class="player-date">Hace 3d</span>
+                    </div>
+                </div>
+            </div>
+
+        </aside>
+
+    </main>
+
+    <!-- FOOTER DEL SITIO (Integración de footer.html) -->
+    <footer class="app-footer">
+        <div class="footer-container">
+            
+            <div class="footer-left">
+                <span class="footer-copyright">
+                    © 2026 EDH Builder. Todos los derechos reservados.
+                </span>
+                <p class="footer-disclaimer">
+                    Este sitio web es un proyecto independiente creado por fans y para fans. Magic: The Gathering, sus expansiones y sus respectivas marcas registradas son propiedad de <a href="https://company.wizards.com/" target="_blank" rel="noopener noreferrer">Wizards of the Coast LLC</a>.
+                </p>
+            </div>
+
+            <div class="footer-right">
+                <span class="creator-info">
+                    Creado con <i class="fa-solid fa-heart heart-icon"></i> por 
+                    <a href="https://github.com/ZurdiGonzi" class="creator-name" target="_blank" rel="noopener noreferrer">ZurdiGonzi</a>
+                </span>
+                
+                <div class="social-links">
+                    <a href="https://github.com/ZurdiGonzi" class="social-btn github" title="GitHub" target="_blank" rel="noopener noreferrer">
+                        <i class="fa-brands fa-github"></i>
+                    </a>
+                    <a href="#" class="social-btn" title="Discord">
+                        <i class="fa-brands fa-discord"></i>
+                    </a>
+                    <a href="#" class="social-btn" title="Twitter / X">
+                        <i class="fa-brands fa-x-twitter"></i>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </footer>
+
+    <!-- INTERACTIVIDAD JS (Pestañas y Simulación de Inscripción) -->
+    <script>
+        function switchTab(evt, tabId) {
+            // Ocultar todos los contenidos de pestañas
+            const tabContents = document.getElementsByClassName("tab-content");
+            for (let i = 0; i < tabContents.length; i++) {
+                tabContents[i].classList.remove("active");
+            }
+
+            // Quitar clase active de todos los botones
+            const tabBtns = document.getElementsByClassName("tab-btn");
+            for (let i = 0; i < tabBtns.length; i++) {
+                tabBtns[i].classList.remove("active");
+            }
+
+            // Mostrar la pestaña actual y marcar el botón como activo
+            document.getElementById(tabId).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+
+        // Simulación interactiva de inscripción
+        let isRegistered = false;
+
+        function registerUser() {
+            if (isRegistered) return;
+
+            const btn = document.getElementById("registerBtn");
+            const playerRatio = document.getElementById("playerRatio");
+            const listCount = document.getElementById("listCount");
+            const playersList = document.getElementById("playersList");
+            const progressBar = document.getElementById("progressBar");
+
+            // Animación e indicación de registrado
+            isRegistered = true;
+            btn.innerHTML = `<i class="fa-solid fa-circle-check"></i> Ya estás Inscrito`;
+            btn.className = "btn-register-action registered";
+            
+            // Incrementar contador
+            playerRatio.textContent = "25 / 64";
+            listCount.textContent = "25 jugadores";
+            
+            // Actualizar barra de progreso (25 / 64 = 39.06%)
+            progressBar.style.width = "39.06%";
+
+            // Añadir dinámicamente al usuario actual al inicio de la lista
+            const newPlayerRow = document.createElement("div");
+            newPlayerRow.className = "player-row";
+            newPlayerRow.style.backgroundColor = "rgba(30, 86, 18, 0.05)";
+            newPlayerRow.style.borderColor = "var(--wildwood-green)";
+            newPlayerRow.innerHTML = `
+                <div class="player-avatar-circle" style="background-color: var(--wildwood-green);">LM</div>
+                <div class="player-info">
+                    <span class="player-name">LilianaMagic (Tú)</span>
+                    <span class="player-commander">Meria, Scholar of Antiquity</span>
+                </div>
+                <span class="player-date">Ahora mismo</span>
+            `;
+            
+            // Insertar al inicio del scroll
+            playersList.insertBefore(newPlayerRow, playersList.firstChild);
+            playersList.scrollTop = 0; // Hacer scroll automático arriba
+            
+            alert('¡Te has inscrito con éxito en el torneo! Tu mazo ha sido enviado para verificación.');
+        }
+    </script>
+</body>
+</html>
