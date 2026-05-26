@@ -54,13 +54,20 @@ To ensure the technical success of the Spring Boot application, the following pr
 
 ## 3. Architectural Patterns
 
-### 3.1. Layered Architecture (N-Tier)
+### 3.1. Clean Architecture (Ports & Adapters)
 
-The backend follows a standard Spring Boot layered architecture to ensure separation of concerns:
+The backend follows **Clean Architecture** (specifically the Ports & Adapters / Hexagonal pattern), which was chosen as the best architectural design for the long term to ensure decoupling, ease of testing, and flexibility in changing external dependencies.
 
-- **Presentation Layer (Controllers)**: RESTful APIs handling HTTP requests, input validation, and HTTP responses.
-- **Business Logic Layer (Services)**: Core business rules, AI integration logic (Groq), external API calls (Scryfall), and payment processing (Stripe).
-- **Data Access Layer (Repositories)**: Spring Data JPA interfaces managing database interactions with Supabase.
+The system is organized into the following layers:
+
+- **Domain Layer (Core)**:
+  - **Models/Entities**: Contains the core business domain models (e.g., `User`, `Card`, `Deck`) completely independent of any frameworks, libraries, or database specifics.
+  - **Ports**: Inbound and outbound interfaces.
+    - *Inbound Ports (Use Cases / Input Ports)*: Define the application interfaces that drive business logic.
+    - *Outbound Ports (Output Ports / SPIs)*: Define interfaces for infrastructure needs (e.g., database persistence like `UserRepositoryPort`, external APIs, etc.).
+- **Infrastructure Layer (Adapters)**:
+  - **Inbound Adapters (REST Controllers / Presenters)**: Translate external inputs (e.g., HTTP REST requests) into domain commands via inbound ports.
+  - **Outbound Adapters (Infrastructure Implementations)**: Implement outbound ports to connect with external services, including Spring Data JPA database operations (Supabase), Scryfall client, Groq client, and Stripe API wrapper.
 
 ### 3.2. Critical Services Decoupling:
 
